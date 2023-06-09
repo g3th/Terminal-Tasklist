@@ -16,6 +16,11 @@ The program will also attach a 'due-date-tag' to the top of the task, next to da
 
 How to compile/run in terminal:
 
+Requires Kotlin command-line compiler, get the latest version:
+
+```https://github.com/JetBrains/kotlin/releases/tag/v1.8.22```
+
+
 Compile with:
 
 ```kotlinc tasklist.kt printout.kt -include-runtime -d tasklist.jar -cp libs/kotlinx-datetime-jvm-0.3.1.jar```
