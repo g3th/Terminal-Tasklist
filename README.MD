@@ -14,6 +14,14 @@ Allows the user to:
 
 The program will also attach a 'due-date-tag' to the top of the task, next to date/time, to indicate whether the task is overdue or ontime.
 
-Warning: It is recommended to clone and build in IntelliJ or similar IDE (or gradle if you like pain). Building in terminal throws errors like 'java.lang.NoClassDefFoundError: kotlinx/datetime/Clock$System' due to kotlinx.datetime not working properly.
+How to compile/run in terminal:
+
+Compile with:
+
+```kotlinc tasklist.kt printout.kt -include-runtime -d tasklist.jar -cp libs/kotlinx-datetime-jvm-0.3.1.jar```
+
+Run with:
+
+```java -classpath tasklist.jar:libs/kotlinx-datetime-jvm-0.3.1.jar Terminal.Tasklist.TasklistKt```
  
 Work in progress.
