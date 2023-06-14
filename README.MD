@@ -35,7 +35,7 @@ Run with:
 
 ```java -cp tasklist.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/moshi-1.15.0.jar:libs/moshi-kotlin-1.15.0.jar:libs/okio-2.10.0-sources.jar:libs/okio-2.10.0-sources.jar:libs/okio-jvm-2.10.0.jar tasklist.TasklistKt```
 
-TODO - 
+TODO:
 
 Fix delete/edit when saving list
 Add colours for the list table
