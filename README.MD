@@ -16,6 +16,10 @@ Allows the user to:
 
 The program will also attach a 'due-date-tag' to the top of the task, next to date/time, to indicate whether the task is overdue or ontime.
 
+Finally, save the task-list in Json format using the Moshi library, and re-load the list everytime the program starts.
+
+------------------------------------------------------------------
+
 How to compile/run in terminal:
 
 Requires Kotlin command-line compiler, get the latest version:
@@ -25,10 +29,13 @@ Requires Kotlin command-line compiler, get the latest version:
 
 Compile with:
 
-```kotlinc tasklist.kt printout.kt -include-runtime -d tasklist.jar -cp libs/kotlinx-datetime-jvm-0.3.1.jar```
+```kotlinc tasklist.kt printout.kt saveToJson.kt -include-runtime -d tasklist.jar -cp libs/kotlinx-datetime-jvm-0.3.1.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/moshi-1.15.0.jar:libs/moshi-kotlin-1.15.0.jar:libs/okio-2.10.0-sources.jar:libs/okio-2.10.0-sources.jar:libs/okio-jvm-2.10.0.jar```
 
 Run with:
 
-```java -classpath tasklist.jar:libs/kotlinx-datetime-jvm-0.3.1.jar Terminal.Tasklist.TasklistKt```
- 
-Work in progress.
+```java -cp tasklist.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/moshi-1.15.0.jar:libs/moshi-kotlin-1.15.0.jar:libs/okio-2.10.0-sources.jar:libs/okio-2.10.0-sources.jar:libs/okio-jvm-2.10.0.jar tasklist.TasklistKt```
+
+TODO - 
+
+Fix delete/edit when saving list
+Add colours for the list table

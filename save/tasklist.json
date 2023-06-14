@@ -1,0 +1,6 @@
+[ 
+{"date":"2023-06-14","time":"17:00","priority":"\u001b[101m \u001b[0m","dueTag":"\u001b[103m \u001b[0m","task":"See my dentist"},
+{"date":"2023-06-21","time":"17:00","priority":"\u001b[103m \u001b[0m","dueTag":"\u001b[102m \u001b[0m","task":"Cinema: get tickets\nCheck movie reviews"},
+{"date":"2023-06-07","time":"19:00","priority":"\u001b[102m \u001b[0m","dueTag":"\u001b[101m \u001b[0m","task":"Supermarket\nChocolates\nflour\noranges"},
+{"date":"2023-06-21","time":"12:00","priority":"\u001b[104m \u001b[0m","dueTag":"\u001b[102m \u001b[0m","task":"Buy book"}
+]

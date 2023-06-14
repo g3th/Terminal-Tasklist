@@ -1,24 +1,45 @@
-package Terminal.Tasklist
+package tasklist
 
 import kotlin.system.exitProcess
 import kotlinx.datetime.*
+import java.io.File
+
+fun clearScreen(){
+	ProcessBuilder("clear").redirectOutput(ProcessBuilder.Redirect.INHERIT).start().waitFor()
+}
 
 class TaskList {
-    private lateinit var givenTaskDate: LocalDate
+    val storeJson = mutableListOf<TasksToJson?>()
+    private val file = File("save/tasklist.json")
+    lateinit var givenTaskDate: LocalDate
     private var taskIsBeingEdited = false
-    private lateinit var tag: String
+    lateinit var tag: String
     private lateinit var currentTimeDateAndTaskPriority: String
     private lateinit var inputtedDate: List<String>
-    private lateinit var givenTaskDateAndTime: String
-    private var result: String = ""
-    private var taskPriority: String = ""
+    lateinit var givenTaskDateAndTime: String
+    var result: String = ""
+    var taskPriority: String = ""
     private val taskPriorities = listOf("C", "H", "N", "L")
     var tasksTimeDatePriority = mutableListOf<String>()
     var tasks = mutableListOf<String>()
     private val currentTime = Clock.System.now()
         .toLocalDateTime(TimeZone.of("UTC+1"))
         .date
+    var jsonTaskList = ""
 
+    init {
+        if (file.exists()) {
+            SaveReadJsonFile().readIt(storeJson)
+            for (i in SaveReadJsonFile().readJsonAndFillTasks(tasksTimeDatePriority, storeJson).component2()) {
+                if (i == ""){
+                    tasks.clear()
+                } else {
+                    tasks.add(PrintOut().taskLayout(i))
+                }
+            }
+            file.delete()
+        }
+    }
 
     fun addTask() {
         priority()
@@ -93,11 +114,8 @@ class TaskList {
 
                                 input.equals("task", true) -> {
                                     taskIsBeingEdited = true
-                                    val currentTask = tasks[taskIndex - 1]
                                     val newTask = task()
-                                    val assignNewTask = tasks[taskIndex - 1]
-                                        .replace(currentTask, newTask)
-                                    tasks[taskIndex - 1] = assignNewTask
+                                    tasks[taskIndex - 1] = newTask
                                     println("The task is changed")
                                     taskIsBeingEdited = false
                                     break@topOfLoop
@@ -133,11 +151,11 @@ class TaskList {
             }
             counter++
         }
+        jsonTaskList += tempAppend
         result = PrintOut().taskLayout(tempAppend)
         if (result.isNotEmpty() && !taskIsBeingEdited) {
             tasksTimeDatePriority.add(
-                "${givenTaskDate} | ${givenTaskDateAndTime.split("T")[1]} | " +
-                        "${taskPriority} | $tag"
+                "${givenTaskDate} | ${givenTaskDateAndTime.split("T")[1]} | ${taskPriority} | $tag"
             )
             tasks.add(result)
         }
@@ -156,6 +174,7 @@ class TaskList {
             } catch (e: Exception) {
                 println("The input date is invalid")
             }
+
         }
     }
 
@@ -188,9 +207,9 @@ class TaskList {
     private fun appendDueTag(date: LocalDate): String {
         lateinit var dueTag: String
         when {
-            date.daysUntil(currentTime) > 0 -> dueTag = "\u001B[101m \u001B[0m" //101
-            date.daysUntil(currentTime) < 0 -> dueTag = "\u001B[102m \u001B[0m" //102
-            date.daysUntil(currentTime) == 0 -> dueTag = "\u001B[103m \u001B[0m" //103
+            date.daysUntil(currentTime) > 0 -> dueTag = "\u001B[101m \u001B[0m" //O
+            date.daysUntil(currentTime) < 0 -> dueTag = "\u001B[102m \u001B[0m" //I
+            date.daysUntil(currentTime) == 0 -> dueTag = "\u001B[103m \u001B[0m" //T
         }
         return dueTag
     }
@@ -217,28 +236,44 @@ class TaskList {
 }
 
 fun main() {
+	clearScreen()
+    val tasks = TaskList()
     val print = PrintOut()
     val actionList = listOf("print", "edit", "delete")
-    val listOfTasks = TaskList()
+    val savedList = SaveReadJsonFile()
     while (true) {
         println("Input an action (add, print, edit, delete, end):")
         val userInput = readln()
         when {
-            actionList.any { userInput.equals(it, true) } && listOfTasks.tasks.isEmpty() -> {
+            actionList.any { userInput.equals(it, true) } && tasks.tasks.isEmpty() -> {
                 println("No tasks have been input")
             }
-            userInput.equals("add", true) -> listOfTasks.addTask()
-            userInput.equals("print", true) -> print.printTasks(listOfTasks.tasksTimeDatePriority, listOfTasks.tasks)
+            userInput.equals("add", true) -> {
+                tasks.addTask()
+                tasks.storeJson.add(savedList.formatJson(tasks.givenTaskDate.toString(),
+                    tasks.givenTaskDateAndTime,
+                    tasks.taskPriority,
+                    tasks.tag,
+                    tasks.jsonTaskList))
+                tasks.jsonTaskList = ""
+            }
+            userInput.equals("print", true) -> {
+            	clearScreen()
+                print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+            }
             userInput.equals("delete", true) -> {
-                print.printTasks(listOfTasks.tasksTimeDatePriority, listOfTasks.tasks)
-                listOfTasks.deleteTask()
+            	clearScreen()
+                print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+                tasks.deleteTask()
             }
             userInput.equals("edit", true) -> {
-                print.printTasks(listOfTasks.tasksTimeDatePriority, listOfTasks.tasks)
-                listOfTasks.editTask()
+            	clearScreen()
+                print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+                tasks.editTask()
             }
             userInput.equals("end", true) -> {
                 println("Tasklist exiting!")
+                savedList.saveJson(tasks.storeJson)
                 exitProcess(0)
             }
             else -> println("The input action is invalid")

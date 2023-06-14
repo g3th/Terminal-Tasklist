@@ -1,4 +1,4 @@
-package Terminal.Tasklist
+package tasklist
 
 data class tasks (val tasksTDP: List<String>, val task: List<String>)
 
@@ -13,7 +13,7 @@ class PrintOut {
     fun taskLayout(input: String): String {
         var printoutInput = ""
         val strList = input.split("\n")
-        var chunkedList = listOf<String>()
+        var chunkedList = mutableListOf<String>()
         for (i in strList) {
             chunkedList += i.chunked(44)
         }
@@ -36,7 +36,7 @@ class PrintOut {
         return printoutInput
     }
 
-    fun printTasks(tasksDateTimePriority: MutableList<String>, tasks:MutableList<String>){
+    fun printTasks(tasksDateTimePriority: MutableList<String>, tasks:MutableList<String>) {
         val tasklist = mutableListOf(tasks(tasksDateTimePriority, tasks))
         var counter = 1
         print(header_top)
