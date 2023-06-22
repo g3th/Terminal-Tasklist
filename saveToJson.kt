@@ -37,7 +37,6 @@ class SaveReadJsonFile {
                     tasksAdapter.fromJson(
                         jsonStrings[i]
                             .replace("},", "}")
-                            .replace("]", "")
                     )
                 )
             }

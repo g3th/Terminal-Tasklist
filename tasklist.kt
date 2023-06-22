@@ -9,22 +9,23 @@ fun clearScreen(){
 }
 
 class TaskList {
-    val storeJson = mutableListOf<TasksToJson?>()
+
+	private lateinit var currentTimeDateAndTaskPriority: String
+    private lateinit var inputtedDate: List<String>   
     private val file = File("save/tasklist.json")
-    lateinit var givenTaskDate: LocalDate
+    private val taskPriorities = listOf("C", "H", "N", "L")
+    private val currentTime = Clock.System.now()
+    .toLocalDateTime(TimeZone.of("UTC+1"))
+    .date
     private var taskIsBeingEdited = false
+    lateinit var givenTaskDate: LocalDate
     lateinit var tag: String
-    private lateinit var currentTimeDateAndTaskPriority: String
-    private lateinit var inputtedDate: List<String>
     lateinit var givenTaskDateAndTime: String
+    val storeJson = mutableListOf<TasksToJson?>()
     var result: String = ""
     var taskPriority: String = ""
-    private val taskPriorities = listOf("C", "H", "N", "L")
     var tasksTimeDatePriority = mutableListOf<String>()
     var tasks = mutableListOf<String>()
-    private val currentTime = Clock.System.now()
-        .toLocalDateTime(TimeZone.of("UTC+1"))
-        .date
     var jsonTaskList = ""
 
     init {
@@ -38,6 +39,7 @@ class TaskList {
                 }
             }
             file.delete()
+            println(tasksTimeDatePriority[0].split(" | ")[2])
         }
     }
 
@@ -57,7 +59,8 @@ class TaskList {
                     taskIndex < 1 || taskIndex > tasksTimeDatePriority.size -> println("Invalid task number")
                     else -> {
                         tasksTimeDatePriority.removeAt(taskIndex - 1)
-                        tasks.removeAt(taskIndex -1)
+                        tasks.removeAt(taskIndex - 1)
+                        storeJson.removeAt(taskIndex -1)
                         println("The task is deleted")
                         break
                     }
@@ -69,12 +72,18 @@ class TaskList {
     }
 
     fun editTask() {
-        val currentTaskPriority = taskPriority
-        val currentTaskDate = givenTaskDate
         topOfLoop@ while (true) {
             println("Input the task number (1-${tasksTimeDatePriority.size}):")
             try {
                 val taskIndex = readln().toInt()
+				val currentTaskPriority = storeJson[taskIndex - 1]!!.priority
+				val currentTaskDate = storeJson[taskIndex - 1]!!.date
+				
+				inputtedDate = listOf(tasksTimeDatePriority[0].split("-")[0],
+				tasksTimeDatePriority[0].split("-")[1],
+				tasksTimeDatePriority[0].split("-")[2].split(" ")[0])
+				
+				tag = tasksTimeDatePriority[0].split(" | ")[2]
                 when {
                     taskIndex < 1 || taskIndex > tasksTimeDatePriority.size -> println("Invalid task number")
                     else -> {
@@ -103,7 +112,7 @@ class TaskList {
                                 }
 
                                 input.equals("time", true) -> {
-                                    val currentTime = givenTaskDateAndTime.split("T")[1]
+                                    val currentTime = tasksTimeDatePriority[taskIndex - 1].split(" | ")[1]
                                     time()
                                     val assignNewTime = tasksTimeDatePriority[taskIndex - 1]
                                         .replaceFirst(currentTime, givenTaskDateAndTime.split("T")[1])
@@ -155,7 +164,7 @@ class TaskList {
         result = PrintOut().taskLayout(tempAppend)
         if (result.isNotEmpty() && !taskIsBeingEdited) {
             tasksTimeDatePriority.add(
-                "${givenTaskDate} | ${givenTaskDateAndTime.split("T")[1]} | ${taskPriority} | $tag"
+                "\u001B[38;5;31m${givenTaskDate}\u001B[38;5;231m | ${givenTaskDateAndTime.split("T")[1]} | ${taskPriority} | $tag"
             )
             tasks.add(result)
         }
@@ -179,6 +188,7 @@ class TaskList {
     }
 
     private fun time() {
+
         while (true) {
             println("Input the time (hh:mm):")
             val inputtedTime = readln().split(":")
@@ -199,7 +209,7 @@ class TaskList {
                 } $taskPriority $tag"
                 break
             } catch (e: Exception) {
-                println("The input time is invalid")
+                println(e)
             }
         }
     }
@@ -236,13 +246,15 @@ class TaskList {
 }
 
 fun main() {
-	clearScreen()
+	
+	val print = PrintOut()	
     val tasks = TaskList()
-    val print = PrintOut()
     val actionList = listOf("print", "edit", "delete")
     val savedList = SaveReadJsonFile()
+    clearScreen()
+	print.table()
     while (true) {
-        println("Input an action (add, print, edit, delete, end):")
+        println("Input an action (add, print, color, edit, delete, end):")
         val userInput = readln()
         when {
             actionList.any { userInput.equals(it, true) } && tasks.tasks.isEmpty() -> {
@@ -252,28 +264,40 @@ fun main() {
                 tasks.addTask()
                 tasks.storeJson.add(savedList.formatJson(tasks.givenTaskDate.toString(),
                     tasks.givenTaskDateAndTime,
-                    tasks.taskPriority,
-                    tasks.tag,
+                    tasks.taskPriority + "${print.setBorder}",
+                    tasks.tag + "${print.setBorder}",
                     tasks.jsonTaskList))
                 tasks.jsonTaskList = ""
             }
             userInput.equals("print", true) -> {
             	clearScreen()
+            	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+            }
+            userInput.equals("color", true) -> {
+            	clearScreen()
+            	print.table()
+            	print.setColour()
             }
             userInput.equals("delete", true) -> {
             	clearScreen()
+            	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
                 tasks.deleteTask()
             }
             userInput.equals("edit", true) -> {
             	clearScreen()
+            	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
                 tasks.editTask()
             }
             userInput.equals("end", true) -> {
-                println("Tasklist exiting!")
-                savedList.saveJson(tasks.storeJson)
+            	clearScreen()
+            	print.table()
+                println("Goodbye.")
+                if (tasks.storeJson.isNotEmpty()){
+                	savedList.saveJson(tasks.storeJson)
+                }
                 exitProcess(0)
             }
             else -> println("The input action is invalid")

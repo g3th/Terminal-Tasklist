@@ -1,6 +1,6 @@
 [ 
-{"date":"2023-06-14","time":"17:00","priority":"\u001b[101m \u001b[0m","dueTag":"\u001b[103m \u001b[0m","task":"See my dentist"},
-{"date":"2023-06-21","time":"17:00","priority":"\u001b[103m \u001b[0m","dueTag":"\u001b[102m \u001b[0m","task":"Cinema: get tickets\nCheck movie reviews"},
-{"date":"2023-06-07","time":"19:00","priority":"\u001b[102m \u001b[0m","dueTag":"\u001b[101m \u001b[0m","task":"Supermarket\nChocolates\nflour\noranges"},
-{"date":"2023-06-21","time":"12:00","priority":"\u001b[104m \u001b[0m","dueTag":"\u001b[102m \u001b[0m","task":"Buy book"}
+{"date":"2023-06-22","time":"12:30","priority":"\u001b[103m \u001b[0m\u001b[38;5;122m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;122m","task":"Task One"}
+{"date":"2023-06-21","time":"11:30","priority":"\u001b[103m \u001b[0m\u001b[38;5;122m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;122m","task":"Task Two"}
+{"date":"2023-06-20","time":"10:30","priority":"\u001b[103m \u001b[0m\u001b[38;5;122m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;122m","task":"Task Three"}
+{"date":"2023-06-19","time":"09:30","priority":"\u001b[103m \u001b[0m\u001b[38;5;122m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;122m","task":"Task Four"}
 ]
