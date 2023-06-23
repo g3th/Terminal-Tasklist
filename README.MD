@@ -5,6 +5,8 @@
 
 A project which implements a task-list for terminals, with simple TUI menu which allows the user to choose different options. The menu now includes a proper print layout, composed of a table which includes time, date, task, and colour-coded priority and due tags.
 
+Also includes the ability to change colour layout for the user.
+
 The task section of the table only has space for 44 characters at most, and the layout class is able to adequately split larger inputs into various chunks, and subsequently organize them into the appropriate format.
 
 Allows the user to:
@@ -37,6 +39,4 @@ Run with:
 
 TODO:
 
-Fix delete/edit when saving list
-
-Add colours for the list table
+Fix delete on Json lists.
