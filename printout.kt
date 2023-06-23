@@ -40,7 +40,7 @@ class PrintOut {
 		println("${escSeq}${gradientStart!!+72}m   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝")
 		println("----------------- https://github.com/g3th -------------------\n")
 		header_one = "${escSeq}${setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
-		header_two = "${escSeq}${setBorder}m| ${escSeq}${setText}mN${escSeq}${setBorder}m  |    ${escSeq}${setText}mDate${escSeq}${setBorder}m    | ${escSeq}${setText}mTime${escSeq}${setBorder}m  | ${escSeq}${setText}mP${escSeq}${setBorder}m | ${escSeq}${setText}mD${escSeq}${setBorder}m |                   ${escSeq}${setText}mTask${escSeq}${setBorder}m                     |"
+		header_two = "${escSeq}${setBorder}m| ${escSeq}${setBorder!!+144}mN${escSeq}${setBorder}m  |    ${escSeq}${setBorder!!+144}mDate${escSeq}${setBorder}m    | ${escSeq}${setBorder!!+144}mTime${escSeq}${setBorder}m  | ${escSeq}${setBorder!!+144}mP${escSeq}${setBorder}m | ${escSeq}${setBorder!!+144}mD${escSeq}${setBorder}m |                   ${escSeq}${setBorder!!+144}mTask${escSeq}${setBorder}m                     |"
 		header_three = "${escSeq}${setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
 		header_bottom = "\n${escSeq}${setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
 		}
@@ -104,7 +104,7 @@ class PrintOut {
         for(i in chunkedList.indices){
             if (chunkedList[i].length < 44) {
                 if (i == 0){
-                    printoutInput += "${escSeq}${setBorder!!}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}|"
+                    printoutInput += "${escSeq}${setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}|"
 
                 } else {
                     printoutInput += "\n${escSeq}${setBorder}m|    |            |       |   |   |${escSeq}${setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${escSeq}${setBorder}m|"

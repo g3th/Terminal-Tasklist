@@ -39,4 +39,6 @@ Run with:
 
 TODO:
 
-Fix delete on Json lists.
+Fix table colours. There are printout errors and layout isn't consistent.
+
+If user sets new colour, the existing tasks colour only changes on restart.

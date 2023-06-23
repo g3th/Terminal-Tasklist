@@ -1,6 +1,5 @@
 [ 
-{"date":"2023-06-23","time":"12:30","priority":"\u001b[103m \u001b[0m\u001b[38;5;33m","dueTag":"\u001b[103m \u001b[0m\u001b[38;5;33m","task":"Take great care not to throw the baby out with the bathwater, as that could greatly compromise neighbourly relations."},
-{"date":"2023-06-24","time":"12:30","priority":"\u001b[103m \u001b[0m\u001b[38;5;33m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;33m","task":"Football with the Lads\n----------------------\nNew Boots\nNew Shin-pads\nBlonde Wig"},
-{"date":"2023-06-25","time":"11:00","priority":"\u001b[104m \u001b[0m\u001b[38;5;33m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;33m","task":"Find novel ways to break the computer."},
-{"date":"2023-06-25","time":"17:20","priority":"\u001b[102m \u001b[0m\u001b[38;5;33m","dueTag":"\u001b[102m \u001b[0m\u001b[38;5;33m","task":"Tesco\n-----\nMilk\nSweet Potatoes"}
+{"date":"2011-11-11","time":"11:11","priority":"\u001b[101m \u001b[0m","dueTag":"\u001b[101m \u001b[0m","task":"Task 1"},
+{"date":"2023-06-26","time":"12:30","priority":"\u001b[104m \u001b[0m","dueTag":"\u001b[102m \u001b[0m","task":"Running"},
+{"date":"2023-06-24","time":"12:30","priority":"\u001b[103m \u001b[0m","dueTag":"\u001b[102m \u001b[0m","task":"Don't forget to feed the pigeons at the park when the warden isn't looking."}
 ]

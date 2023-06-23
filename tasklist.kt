@@ -278,8 +278,8 @@ fun main() {
                 tasks.addTask()
                 tasks.storeJson.add(savedList.formatJson(tasks.givenTaskDate.toString(),
                     tasks.givenTaskDateAndTime,
-                    tasks.taskPriority + "${print.escSeq}${print.setBorder}m",
-                    tasks.tag + "${print.escSeq}${print.setBorder}m",
+                    tasks.taskPriority,
+                    tasks.tag,
                     tasks.jsonTaskList))
                 tasks.jsonTaskList = ""
             }
