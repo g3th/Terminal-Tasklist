@@ -27,7 +27,10 @@ class TaskList {
     var tasksTimeDatePriority = mutableListOf<String>()
     var tasks = mutableListOf<String>()
     var jsonTaskList = ""
-
+	
+	/* 	Check for previously saved Tasklist
+		If it exists, load it and populate the lists.
+	*/
     init {
         if (file.exists()) {
             SaveReadJsonFile().readIt(storeJson)
@@ -39,7 +42,6 @@ class TaskList {
                 }
             }
             file.delete()
-            println(tasksTimeDatePriority[0].split(" | ")[2])
         }
     }
 
@@ -70,7 +72,10 @@ class TaskList {
             }
         }
     }
-
+	/* 	Edit Mode:
+		For every field, change both lists, the one to be saved to file (json)
+		and the ones used by the program.
+	*/
     fun editTask() {
         topOfLoop@ while (true) {
             println("Input the task number (1-${tasksTimeDatePriority.size}):")
@@ -137,8 +142,13 @@ class TaskList {
                 println("Invalid task number")
             }
         }
-    }
-
+    }	
+	/*  Task Creation:
+		This is an entirely separate list from
+		time, date and priority, and contains
+		only tasks. This is so chunking, layout and
+		printing is easier.
+	*/
     private fun task(): String {
         var counter = 0
         var tempAppend = ""
@@ -164,13 +174,16 @@ class TaskList {
         result = PrintOut().taskLayout(tempAppend)
         if (result.isNotEmpty() && !taskIsBeingEdited) {
             tasksTimeDatePriority.add(
-                "\u001B[38;5;31m${givenTaskDate}\u001B[38;5;231m | ${givenTaskDateAndTime.split("T")[1]} | ${taskPriority} | $tag"
+                "${givenTaskDate} | ${givenTaskDateAndTime.split("T")[1]} | ${taskPriority} | $tag"
             )
             tasks.add(result)
         }
         return result
     }
-
+	/*  Below are Time, Date, Priority and Tag assignment.
+		This is grouped all in a single list.
+		This way print layout is easier.
+	*/
     private fun date() {
         while (true) {
             println("Input the date (yyyy-mm-dd):")
@@ -197,12 +210,6 @@ class TaskList {
                     inputtedDate[0].toInt(), inputtedDate[1].toInt(),
                     inputtedDate[2].toInt(), inputtedTime[0].toInt(), inputtedTime[1].toInt()
                 ).toString()
-
-                /* This works with datetime 0.4.0:
-                   'LocalTime(time[0].toInt(),time[1].toInt())'
-                   But Hyperskill have the outdated 0.3.1
-                  */
-
                 currentTimeDateAndTaskPriority = "${
                     givenTaskDateAndTime
                         .replace("T", " ")
@@ -249,58 +256,73 @@ fun main() {
 	
 	val print = PrintOut()	
     val tasks = TaskList()
-    val actionList = listOf("print", "edit", "delete")
+    /*  These are actions which won't
+    	function with an empty task list.
+    */
+    val actionList = listOf("2", "4", "5")
     val savedList = SaveReadJsonFile()
-    clearScreen()
-	print.table()
     while (true) {
-        println("Input an action (add, print, color, edit, delete, end):")
+    	clearScreen()
+    	print.table()
+    	print.userOptions()
+        print("\n> ")
         val userInput = readln()
         when {
-            actionList.any { userInput.equals(it, true) } && tasks.tasks.isEmpty() -> {
-                println("No tasks have been input")
-            }
-            userInput.equals("add", true) -> {
+	        actionList.any { userInput.equals(it, true) } && tasks.tasks.isEmpty() -> {
+	            println("No tasks have been input")
+                println("Press Enter To Continue...")
+                readln()
+	        }
+            // Add Task
+            userInput.equals("1", true) -> {
                 tasks.addTask()
                 tasks.storeJson.add(savedList.formatJson(tasks.givenTaskDate.toString(),
                     tasks.givenTaskDateAndTime,
-                    tasks.taskPriority + "${print.setBorder}",
-                    tasks.tag + "${print.setBorder}",
+                    tasks.taskPriority + "${print.escSeq}${print.setBorder}m",
+                    tasks.tag + "${print.escSeq}${print.setBorder}m",
                     tasks.jsonTaskList))
                 tasks.jsonTaskList = ""
             }
-            userInput.equals("print", true) -> {
+            // Print Task
+            userInput.equals("2", true) -> {
             	clearScreen()
             	print.table()
-                print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+				print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+				println("\nPress Enter To Continue...")
+				readln()
             }
-            userInput.equals("color", true) -> {
+            // Set Layout Colours
+            userInput.equals("3", true) -> {
             	clearScreen()
-            	print.table()
             	print.setColour()
             }
-            userInput.equals("delete", true) -> {
+            // Delete a Task
+            userInput.equals("5", true) -> {
             	clearScreen()
             	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
                 tasks.deleteTask()
             }
-            userInput.equals("edit", true) -> {
+            // Edit Mode
+            userInput.equals("4", true) -> {
             	clearScreen()
             	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
                 tasks.editTask()
             }
-            userInput.equals("end", true) -> {
-            	clearScreen()
-            	print.table()
-                println("Goodbye.")
+            // Quit
+            userInput.equals("6", true) -> {
+                println("\nGoodbye.")
                 if (tasks.storeJson.isNotEmpty()){
                 	savedList.saveJson(tasks.storeJson)
                 }
                 exitProcess(0)
             }
-            else -> println("The input action is invalid")
+            else -> {
+		        println("\nThe input action is invalid.")
+                println("Press Enter To Continue...")
+                readln()
+            }
         }
     }
 }
