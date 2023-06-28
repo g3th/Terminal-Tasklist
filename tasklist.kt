@@ -29,6 +29,7 @@ class TaskList {
     var jsonTaskList = ""
 	/* 	Check for previously saved Tasklist
 		If it exists, load it and populate the lists.
+		Reformat the lists colours.
 	*/
 	data class ReformatColours(val date: String, val time: String, val priority: String, val due: String)
     init {
