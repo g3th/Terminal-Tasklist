@@ -4,9 +4,7 @@
 ![Alt text](assets/1.png "Terminal Tasklist Running on Kali")
 ![Alt text](assets/2.png "Terminal Tasklist Running on Kali")
 
-A project which implements a task-list for terminals, with simple TUI menu which allows the user to choose different options. The menu now includes a proper print layout, composed of a table which includes time, date, task, and colour-coded priority and due tags.
-
-Also includes the ability to change colour layout for the user.
+A project which implements a task-list for terminals, with simple TUI menu which allows the user to choose different options. The menu now includes a proper print layout, composed of a table which includes time, date, task, and colour-coded priority and due tags. The user has the option to change every colour property of the layout, including table border and table text. All changes take effect while the program is running, without needing to restart.
 
 The task section of the table only has space for 44 characters at most, and the layout class is able to adequately split larger inputs into various chunks, and subsequently organize them into the appropriate format.
 
@@ -16,6 +14,7 @@ Allows the user to:
 2) Add current date and time for tasks (i.e. 1 2023-11-11 11:33)
 3) Add a task priority (i.e. 1 2023-11-11 11:33 C (for Critical))
 4) Edit every aspect of the created task, from date to rewriting the task itself.
+5) Change main text, table text and table border colours.
 
 The program will also attach a 'due-date-tag' to the top of the task, next to date/time, to indicate whether the task is overdue or ontime.
 
@@ -32,7 +31,7 @@ Requires Kotlin command-line compiler, get the latest version:
 
 Compile with:
 
-```kotlinc tasklist.kt printout.kt saveToJson.kt -include-runtime -d tasklist.jar -cp libs/kotlinx-datetime-jvm-0.3.1.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/moshi-1.15.0.jar:libs/moshi-kotlin-1.15.0.jar:libs/okio-2.10.0-sources.jar:libs/okio-2.10.0-sources.jar:libs/okio-jvm-2.10.0.jar```
+```kotlinc tasklist.kt printout.kt saveToJson.kt colours.kt -include-runtime -d tasklist.jar -cp libs/kotlinx-datetime-jvm-0.3.1.jar:libs/kotlinx-datetime-jvm-0.3.1.jar:libs/moshi-1.15.0.jar:libs/moshi-kotlin-1.15.0.jar:libs/okio-2.10.0-sources.jar:libs/okio-2.10.0-sources.jar:libs/okio-jvm-2.10.0.jar```
 
 Run with:
 
@@ -40,6 +39,8 @@ Run with:
 
 TODO:
 
-Fix table colours. There are printout errors and layout isn't consistent.
+Minor Layout Fixes (i.e. user menus newlines, style consistency etc...)
 
-If user sets new colour, the existing tasks colour only changes on restart.
+More customization options (i.e. skip task date)
+
+
