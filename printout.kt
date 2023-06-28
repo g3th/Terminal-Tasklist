@@ -1,133 +1,113 @@
 package tasklist
+import kotlin.system.*
 
 import java.io.*
 import kotlin.system.exitProcess
 data class tasks (val tasksTDP: List<String>, val task: List<String>)
 
 class PrintOut {
-	val escSeq = "\u001B[38;5;"
-	var setBorder: Int? = null
-	var setText: Int? = null
-	private var gradientStart: Int? = null
-	private val colorScheme = File("colorScheme")
-	private lateinit var colorSchemeContent: List<String>
-	lateinit var header_one: String
-	lateinit var header_two: String
-	lateinit var header_three: String
-	lateinit var header_bottom: String
-
-	
-	
-	init {
-		if (colorScheme.exists()){
-			colorSchemeContent = colorScheme.readLines()
-			gradientStart = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
-			setBorder = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
-			setText = colorSchemeContent[1].split(";")[2].replace("m","").toInt()
-		} else {
-			clearScreen()
-			setColour()
-		}
+	lateinit var tableBorder: String
+	lateinit var tableElements: String
+	/* 	The header below will get called if there is no 'ColorScheme" file present.
+		"Why not use the standard table?" You may ask. Because the standard table causes a StackOverFlow error.
+		"Why does it cause an error?" You may ask. Because 'ColourEditor()' is invoked (I think?), and therefore
+		'PrintOut().table()' can't be invoked in the ColourEditor class without causing endless recursion.
+		"Why do you need to invoke ColourEditor()?". You may ask. So that colours are refreshed in real-time,
+		 when the user sets them in the program, without necessitating any restarts.
+		 "Why, then, not...". Go to bed now, take your medicine.
+	*/
+	fun plainHeader(){
+		println("\u001B[38;5;231m------------- Fully Editable - Fully Colourful ---------------\n")
+		println("████████╗ █████╗ ███████╗██╗  ██╗██╗     ██╗███████╗████████╗")
+		println("╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██║     ██║██╔════╝╚══██╔══╝")
+		println("   ██║   ███████║███████╗█████╔╝ ██║     ██║███████╗   ██║")
+		println("   ██║   ██╔══██║╚════██║██╔═██╗ ██║     ██║╚════██║   ██║")
+		println("   ██║   ██║  ██║███████║██║  ██╗███████╗██║███████║   ██║")
+		println("   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝\n")
+		println("----------------- https://github.com/g3th -------------------\n")
 	}
 	
+	// The 'Standard' Table. Read above.
 	fun table(){
-		println("${escSeq}${gradientStart!!}m------ Fully Editable - Fully Colourful - Full o' Shit ------")
-		println("${escSeq}${gradientStart!!+36}m████████╗ █████╗ ███████╗██╗  ██╗██╗     ██╗███████╗████████╗")
-		println("${escSeq}${gradientStart!!+72}m╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██║     ██║██╔════╝╚══██╔══╝")
-		println("${escSeq}${gradientStart!!+108}m   ██║   ███████║███████╗█████╔╝ ██║     ██║███████╗   ██║")
-		println("${escSeq}${gradientStart!!+144}m   ██║   ██╔══██║╚════██║██╔═██╗ ██║     ██║╚════██║   ██║")
-		println("${escSeq}${gradientStart!!+108}m   ██║   ██║  ██║███████║██║  ██╗███████╗██║███████║   ██║")
-		println("${escSeq}${gradientStart!!+72}m   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart}m------------- Fully Editable - Fully Colourful ---------------\n")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart!!+36}m████████╗ █████╗ ███████╗██╗  ██╗██╗     ██╗███████╗████████╗")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart!!+72}m╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██║     ██║██╔════╝╚══██╔══╝")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart!!+108}m   ██║   ███████║███████╗█████╔╝ ██║     ██║███████╗   ██║")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart!!+72}m   ██║   ██╔══██║╚════██║██╔═██╗ ██║     ██║╚════██║   ██║")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart!!+36}m   ██║   ██║  ██║███████║██║  ██╗███████╗██║███████║   ██║")
+		println("${ColourEditor().escSeq}${ColourEditor().gradientStart}m   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝\n")
 		println("----------------- https://github.com/g3th -------------------\n")
-		header_one = "${escSeq}${setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
-		header_two = "${escSeq}${setBorder}m| ${escSeq}${setBorder!!+144}mN${escSeq}${setBorder}m  |    ${escSeq}${setBorder!!+144}mDate${escSeq}${setBorder}m    | ${escSeq}${setBorder!!+144}mTime${escSeq}${setBorder}m  | ${escSeq}${setBorder!!+144}mP${escSeq}${setBorder}m | ${escSeq}${setBorder!!+144}mD${escSeq}${setBorder}m |                   ${escSeq}${setBorder!!+144}mTask${escSeq}${setBorder}m                     |"
-		header_three = "${escSeq}${setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
-		header_bottom = "\n${escSeq}${setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
+		tableBorder = "${ColourEditor().escSeq}${ColourEditor().setTable}m+----+------------+-------+---+---+--------------------------------------------+"
+		tableElements = "${ColourEditor().escSeq}${ColourEditor().setTable}m| ${ColourEditor().escSeq}${ColourEditor().setBorder}mN${ColourEditor().escSeq}${ColourEditor().setTable}m  |    ${ColourEditor().escSeq}${ColourEditor().setBorder}mDate${ColourEditor().escSeq}${ColourEditor().setTable}m    | ${ColourEditor().escSeq}${ColourEditor().setBorder}mTime${ColourEditor().escSeq}${ColourEditor().setTable}m  | ${ColourEditor().escSeq}${ColourEditor().setBorder}mP${ColourEditor().escSeq}${ColourEditor().setTable}m | ${ColourEditor().escSeq}${ColourEditor().setBorder}mD${ColourEditor().escSeq}${ColourEditor().setTable}m |                   ${ColourEditor().escSeq}${ColourEditor().setBorder}mTask${ColourEditor().escSeq}${ColourEditor().setTable}m                     |"
 		}
 		
 	fun userOptions(){
-		println("${escSeq}${setText!!}mInput an action:\n----------------")
-		println("${escSeq}${setText!!+36}m1. Add")
-		println("${escSeq}${setText!!+72}m2. Print")
-		println("${escSeq}${setText!!+108}m3. Color")
-		println("${escSeq}${setText!!+144}m4. Edit")
-		println("${escSeq}${setText!!+108}m5. Delete")
-		println("${escSeq}${setText!!+72}m6. End")					
+		println("${ColourEditor().escSeq}${ColourEditor().setText!!}mInput an action:\n----------------")
+		println("${ColourEditor().escSeq}${ColourEditor().setText!!+36}m1. Add")
+		println("${ColourEditor().escSeq}${ColourEditor().setText!!+72}m2. Print")
+		println("${ColourEditor().escSeq}${ColourEditor().setText!!+108}m3. Set Colours")
+		println("${ColourEditor().escSeq}${ColourEditor().setText}m4. Edit")
+		println("${ColourEditor().escSeq}${ColourEditor().setText!!+108}m5. Delete")
+		println("${ColourEditor().escSeq}${ColourEditor().setText!!+72}m6. End")					
 	}
 	
-    fun setColour(){
-    	while(true){
-    		try{
-    			if (gradientStart != null) {
-    			 	table()
-			 	} else {
-			  		gradientStart = 34
-  					setBorder = 34
-					setText = 34
-    			  	table()
-    			  	println("\u001B[0m\nTable color scheme not found. Please set Colours before starting:")
-			  	}
-				println("Enter Border color (0 - 255):")
-				val setB = readln()
-				println("Enter Text color (0 - 255):")
-				val setT = readln()
-				if (setB.toInt() < 0 || setB.toInt() > 255 || setT.toInt() < 0 || setT.toInt() > 255){
-					println("One of the values entered was invalid.")
-					println("Press Enter to Continue...")
-					readln()
-				} else {
-					colorScheme.delete()
-					colorScheme.writeText("${escSeq}${setB}m\n")
-					colorScheme.appendText("${escSeq}${setT}m")
-					colorSchemeContent = colorScheme.readLines()
-					gradientStart = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
-					setBorder = gradientStart
-					setText = colorSchemeContent[1].split(";")[2].replace("m","").toInt()
-					break				
-				}
-			} catch (e: NumberFormatException){
-				println("One of the values entered is not a number")
-				readln()
-			}
-		}
-	}
-
+	/*	Format the task list:
+		Divide the list into chunks of 44 characters, whether it has multiple elements (rows) or not.
+		This is due to the fact that only a maximum of 44 characters fit a row in the "Tasks" column.
+		
+		Then, iterate through the chunks:
+		If the element length is less than 44 characters, and there is only one element in the chunked list,
+		it is only a single row. Therefore, append the correct amount of spaces to the length of the element
+		with simple subtraction.
+		
+		If there is more than one element in the chunked list, but it is less than 44 characters, do the same,
+		but add a newline and prepend the table to the task.
+	*/
     fun taskLayout(input: String): String {
         var printoutInput = ""
         val strList = input.split("\n")
         var chunkedList = mutableListOf<String>()
-		setBorder = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
-		setText = colorSchemeContent[1].split(";")[2].replace("m","").toInt()
         for (i in strList) {
             chunkedList += i.chunked(44)
         }
         for(i in chunkedList.indices){
             if (chunkedList[i].length < 44) {
                 if (i == 0){
-                    printoutInput += "${escSeq}${setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}|"
+                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
 
                 } else {
-                    printoutInput += "\n${escSeq}${setBorder}m|    |            |       |   |   |${escSeq}${setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${escSeq}${setBorder}m|"
+                    printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
                 }
             } else {
-                if (i == 0){
-                    printoutInput += "${escSeq}${setText}m${chunkedList[i]}${escSeq}${setBorder}m|"
+            	if (i == 0){
+                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
                 } else {
-                    printoutInput += "\n${escSeq}${setBorder}m|    |            |       |   |   |${escSeq}${setText}m${chunkedList[i]}${escSeq}${setBorder}m|"
-                }
+                	printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
+            		}
+            	}
             }
-        }
         return printoutInput
     }
 
     fun printTasks(tasksDateTimePriority: MutableList<String>, tasks:MutableList<String>) {
         val tasklist = mutableListOf(tasks(tasksDateTimePriority, tasks))
         var counter = 1
-        print("${header_one}\n${header_two}\n${header_three}\n")
+		// Priority Legend
+		print("${ColourEditor().escSeq}${ColourEditor().setText}mPriority: \u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mCritical | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mHigh | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mNormal | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mLow\n\n")
+		// Tag Legend
+		print("${ColourEditor().escSeq}${ColourEditor().setText}mDue Tags: ")
+		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mOverdue | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mComing Up Shortly | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mIn Time\n\n")
+        print("${tableBorder}\n${tableElements}\n${tableBorder}\n")
+        // Print already formatted tasks
         for ((a,b) in tasklist) {
             for (c in a.indices) {
-                print("|${escSeq}${setText!!}m $counter${escSeq}${setBorder}m  | ${escSeq}${setText}m${a[c]} ${escSeq}${setBorder}m|${escSeq}${setText}m${b[c]}")
-                println(header_bottom)
+                print("| ${ColourEditor().escSeq}${ColourEditor().setBorder}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${a[c]} |${b[c]}\n")
+                println(tableBorder)
                 counter++
             }
         }

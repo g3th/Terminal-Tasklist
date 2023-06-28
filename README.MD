@@ -1,7 +1,8 @@
 # Kotlin Tasklist for Terminals
 ## Implementing a daily task list TUI
 
-![Alt text](assets/tasklist.png "Terminal Tasklist Running on Kali")
+![Alt text](assets/1.png "Terminal Tasklist Running on Kali")
+![Alt text](assets/2.png "Terminal Tasklist Running on Kali")
 
 A project which implements a task-list for terminals, with simple TUI menu which allows the user to choose different options. The menu now includes a proper print layout, composed of a table which includes time, date, task, and colour-coded priority and due tags.
 

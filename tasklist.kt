@@ -13,36 +13,38 @@ class TaskList {
 	private lateinit var currentTimeDateAndTaskPriority: String
     private lateinit var inputtedDate: List<String>   
     private val file = File("save/tasklist.json")
-    private val taskPriorities = listOf("C", "H", "N", "L")
+    private val taskPriorities = listOf("1", "2", "3", "4")
+    private var taskIsBeingEdited = false
     private val currentTime = Clock.System.now()
     .toLocalDateTime(TimeZone.of("UTC+1"))
     .date
-    private var taskIsBeingEdited = false
     lateinit var givenTaskDate: LocalDate
     lateinit var tag: String
     lateinit var givenTaskDateAndTime: String
-    val storeJson = mutableListOf<TasksToJson?>()
+    var storeJson = mutableListOf<TasksToJson?>()
     var result: String = ""
     var taskPriority: String = ""
     var tasksTimeDatePriority = mutableListOf<String>()
     var tasks = mutableListOf<String>()
     var jsonTaskList = ""
-	
 	/* 	Check for previously saved Tasklist
 		If it exists, load it and populate the lists.
 	*/
+	data class ReformatColours(val date: String, val time: String, val priority: String, val due: String)
     init {
-        if (file.exists()) {
-            SaveReadJsonFile().readIt(storeJson)
-            for (i in SaveReadJsonFile().readJsonAndFillTasks(tasksTimeDatePriority, storeJson).component2()) {
-                if (i == ""){
-                    tasks.clear()
-                } else {
-                    tasks.add(PrintOut().taskLayout(i))
-                }
-            }
-            file.delete()
-        }
+        if (file.exists()){
+        	SaveReadJsonFile().readIt(storeJson)
+        	val filledTasks = SaveReadJsonFile().readJsonAndFillTasks(tasksTimeDatePriority, storeJson)
+			tasksTimeDatePriority = filledTasks.timeDate
+			for (j in tasksTimeDatePriority.indices){	
+				val tempStore = ReformatColours(tasksTimeDatePriority[j].split("|")[0], tasksTimeDatePriority[j].split("|")[1], tasksTimeDatePriority[j].split("|")[2], tasksTimeDatePriority[j].split("|")[3])
+				tasksTimeDatePriority[j] = ColourEditor().reformatColours(tasksTimeDatePriority[j], tempStore)
+			}
+			for (i in filledTasks.listOfTasks){
+				tasks.add(PrintOut().taskLayout(i))
+				}
+			}
+
     }
 
     fun addTask() {
@@ -76,19 +78,19 @@ class TaskList {
 		For every field, change both lists, the one to be saved to file (json)
 		and the ones used by the program.
 	*/
-    fun editTask() {
+        fun editTask() {
         topOfLoop@ while (true) {
             println("Input the task number (1-${tasksTimeDatePriority.size}):")
             try {
                 val taskIndex = readln().toInt()
 				val currentTaskPriority = storeJson[taskIndex - 1]!!.priority
 				val currentTaskDate = storeJson[taskIndex - 1]!!.date
-				
+				println("Current Task Date: $currentTaskDate")
+				readln()	
 				inputtedDate = listOf(tasksTimeDatePriority[0].split("-")[0],
 				tasksTimeDatePriority[0].split("-")[1],
 				tasksTimeDatePriority[0].split("-")[2].split(" ")[0])
-				
-				tag = tasksTimeDatePriority[0].split(" | ")[2]
+				tag = tasksTimeDatePriority[0].split("|")[3].replace(" ","")
                 when {
                     taskIndex < 1 || taskIndex > tasksTimeDatePriority.size -> println("Invalid task number")
                     else -> {
@@ -99,42 +101,39 @@ class TaskList {
                                 input.equals("priority", true) -> {
                                     val newPriority = priority()
                                     val assignNewPriority = tasksTimeDatePriority[taskIndex - 1]
-                                        .replaceFirst(" $currentTaskPriority ", " $newPriority ")
+                                        .replace("$currentTaskPriority", "$newPriority")
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewPriority
-                                    println("The task is changed")
-                                    break@topOfLoop
+                                    storeJson[taskIndex -1]!!.priority = newPriority
                                 }
-
                                 input.equals("date", true) -> {
                                     val currentTag = tag
                                     date()
                                     val assignNewDate = tasksTimeDatePriority[taskIndex - 1]
                                         .replaceFirst(currentTaskDate.toString(), givenTaskDate.toString())
                                         .replaceFirst(currentTag, tag)
+									println("New Task Date: $givenTaskDate")
+									readln()	
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewDate
-                                    println("The task is changed")
-                                    break@topOfLoop
+                                    storeJson[taskIndex -1]!!.date = givenTaskDate.toString()
                                 }
-
                                 input.equals("time", true) -> {
                                     val currentTime = tasksTimeDatePriority[taskIndex - 1].split(" | ")[1]
                                     time()
                                     val assignNewTime = tasksTimeDatePriority[taskIndex - 1]
                                         .replaceFirst(currentTime, givenTaskDateAndTime.split("T")[1])
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewTime
-                                    println("The task is changed")
-                                    break@topOfLoop
                                 }
-
                                 input.equals("task", true) -> {
                                     taskIsBeingEdited = true
                                     val newTask = task()
                                     tasks[taskIndex - 1] = newTask
-                                    println("The task is changed")
-                                    taskIsBeingEdited = false
-                                    break@topOfLoop
+                                    taskIsBeingEdited = false                                    
                                 }
-                            }
+                            }                           
+							println("\nThe task is changed")
+							println("\nPress Enter to Continue...")
+							readln()
+							break@topOfLoop
                         }
                     }
                 }
@@ -142,7 +141,7 @@ class TaskList {
                 println("Invalid task number")
             }
         }
-    }	
+    }
 	/*  Task Creation:
 		This is an entirely separate list from
 		time, date and priority, and contains
@@ -153,11 +152,19 @@ class TaskList {
         var counter = 0
         var tempAppend = ""
         var input: String
-        println("Input a new task (enter a blank line to end):")
+        clearScreen()
+        PrintOut().table()
+        println("Input a new task:")
+        println("-----------------")
+        println("1. Enter a single/multi-line task by hitting enter after your input.")
+        println("2. Finish by hitting enter without inputting anything.\n")
         while (true) {
+	       	print("> ")
             input = readln()
             if (input.all { it.isWhitespace() } && tempAppend.isEmpty()) {
-                println("The task is blank")
+                println("\nThe task is blank")
+                println("Press Enter to Continue...")
+                readln()
                 break
             } else if (input.all { it.isWhitespace() }) {
                 break
@@ -174,7 +181,7 @@ class TaskList {
         result = PrintOut().taskLayout(tempAppend)
         if (result.isNotEmpty() && !taskIsBeingEdited) {
             tasksTimeDatePriority.add(
-                "${givenTaskDate} | ${givenTaskDateAndTime.split("T")[1]} | ${taskPriority} | $tag"
+                "${ColourEditor().escSeq}${ColourEditor().setText}m${givenTaskDate} ${ColourEditor().escSeq}${ColourEditor().setBorder}m| ${ColourEditor().escSeq}${ColourEditor().setText}m${givenTaskDateAndTime.split("T")[1]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m| ${taskPriority} | ${ColourEditor().escSeq}${ColourEditor().setText}m$tag"
             )
             tasks.add(result)
         }
@@ -186,24 +193,37 @@ class TaskList {
 	*/
     private fun date() {
         while (true) {
+        	clearScreen()
+        	PrintOut().table()
             println("Input the date (yyyy-mm-dd):")
+            println("----------------------------") 
+            print("> ")
             inputtedDate = readln().split("-")
             try {
                 givenTaskDate = LocalDate(inputtedDate[0].toInt(), inputtedDate[1].toInt(), inputtedDate[2].toInt())
                 //Due Tag is invoked and assigned here ->
                 tag = appendDueTag(givenTaskDate)
                 break
-            } catch (e: Exception) {
-                println("The input date is invalid")
-            }
-
-        }
-    }
+            } catch (e1: java.lang.IllegalArgumentException) {
+					println("\nInvalid Date.")
+					println("Press Enter To Continue...")
+					readln()
+    		} catch (e2: java.lang.IndexOutOfBoundsException) {
+        			println("\nIncomplete Date.")
+        			println("Press Enter To Continue...")
+        			readln()
+				}
+    		}
+    	}
 
     private fun time() {
 
         while (true) {
+        	clearScreen()
+        	PrintOut().table()
             println("Input the time (hh:mm):")
+            println("-----------------------") 
+            print("> ")
             val inputtedTime = readln().split(":")
             try {
                 givenTaskDateAndTime = LocalDateTime(
@@ -215,8 +235,14 @@ class TaskList {
                         .replace("T", " ")
                 } $taskPriority $tag"
                 break
-            } catch (e: Exception) {
-                println(e)
+            } catch (e1: java.lang.IndexOutOfBoundsException) {
+                println("Incomplete Time")
+                println("Press Enter to Continue...")
+                readln()
+            } catch (e2: Exception){
+            	println(e2)
+            	println("Press Enter to Continue...")
+            	readln()
             }
         }
     }
@@ -224,27 +250,31 @@ class TaskList {
     private fun appendDueTag(date: LocalDate): String {
         lateinit var dueTag: String
         when {
-            date.daysUntil(currentTime) > 0 -> dueTag = "\u001B[101m \u001B[0m" //O
-            date.daysUntil(currentTime) < 0 -> dueTag = "\u001B[102m \u001B[0m" //I
-            date.daysUntil(currentTime) == 0 -> dueTag = "\u001B[103m \u001B[0m" //T
+            date.daysUntil(currentTime) > 0 -> dueTag = "\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m" //O 
+            date.daysUntil(currentTime) < 0 -> dueTag = "\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m" //I
+            date.daysUntil(currentTime) == 0 -> dueTag = "\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setBorder}m" //T
         }
         return dueTag
     }
 
     private fun priority(): String {
         while (true) {
-            println("Input the task priority (C, H, N, L):")
+        	clearScreen()
+        	PrintOut().table()
+            println("Input a task priority:\n\n1. Critical\n2. High\n3. Normal\n4. Low")
+            print("> ")
             val input = readln()
             when {
                 taskPriorities.any { it.equals(input, true) } -> {
                     when {
-                        input.equals("C", ignoreCase = true) -> taskPriority = "\u001B[101m \u001B[0m"
-                        input.equals("H", ignoreCase = true) -> taskPriority = "\u001B[103m \u001B[0m"
-                        input.equals("N", ignoreCase = true) -> taskPriority = "\u001B[102m \u001B[0m"
-                        input.equals("L", ignoreCase = true) -> taskPriority = "\u001B[104m \u001B[0m"
+                        input.equals("1", ignoreCase = true) -> taskPriority = "\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m" // Red
+                        input.equals("2", ignoreCase = true) -> taskPriority = "\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"	// Yellow
+                        input.equals("3", ignoreCase = true) -> taskPriority = "\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"	// Green
+                        input.equals("4", ignoreCase = true) -> taskPriority = "\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"	// Blue
                     }
                     break
                 }
+                else -> println("Invalid")
             }
         }
         result = ""
@@ -253,23 +283,24 @@ class TaskList {
 }
 
 fun main() {
-	
-	val print = PrintOut()	
+	val colours = ColourEditor()
+	val print = PrintOut()
     val tasks = TaskList()
-    /*  These are actions which won't
-    	function with an empty task list.
-    */
-    val actionList = listOf("2", "4", "5")
+    val actionList = listOf("2", "4", "5") //These are actions which won't function with an empty task list.
     val savedList = SaveReadJsonFile()
+    val date = Clock.System.now()
+    .toLocalDateTime(TimeZone.of("UTC+1")).date
+    val time = "${Clock.System.now().toLocalDateTime(TimeZone.of("UTC+1")).toString().split("T")[1].split(":")[0]}:${Clock.System.now().toLocalDateTime(TimeZone.of("UTC+1")).toString().split("T")[1].split(":")[1]}"
     while (true) {
     	clearScreen()
     	print.table()
+    	println("Date: ${date}\nTime: ${time}\n")
     	print.userOptions()
         print("\n> ")
         val userInput = readln()
         when {
 	        actionList.any { userInput.equals(it, true) } && tasks.tasks.isEmpty() -> {
-	            println("No tasks have been input")
+	            println("\nNo tasks have been input")
                 println("Press Enter To Continue...")
                 readln()
 	        }
@@ -280,7 +311,7 @@ fun main() {
                     tasks.givenTaskDateAndTime,
                     tasks.taskPriority,
                     tasks.tag,
-                    tasks.jsonTaskList))
+                   tasks.jsonTaskList))
                 tasks.jsonTaskList = ""
             }
             // Print Task
@@ -294,7 +325,28 @@ fun main() {
             // Set Layout Colours
             userInput.equals("3", true) -> {
             	clearScreen()
-            	print.setColour()
+				print.table()
+				val oldText = "${ColourEditor().escSeq}${ColourEditor().setText}m"
+				val oldBorder = "${ColourEditor().escSeq}${ColourEditor().setBorder}m"
+				val oldBorderText = "${ColourEditor().escSeq}${ColourEditor().setTable}m"
+            	colours.setColour()
+            	val newText = "${ColourEditor().escSeq}${ColourEditor().setText}m"
+				val newBorder = "${ColourEditor().escSeq}${ColourEditor().setBorder}m"
+				val newBorderText = "${ColourEditor().escSeq}${ColourEditor().setTable}m"
+            	tasks.tasks.clear()
+        		val tempTasks = mutableListOf<String>()
+        		for (i in tasks.storeJson){
+            		tempTasks.add(i!!.task)
+            	}
+            	for (i in tempTasks){
+            		tasks.tasks.add(PrintOut().taskLayout(i))
+        		}
+        		for (i in tasks.tasksTimeDatePriority.indices){
+    				tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldText, newText)
+    				tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldBorder, newBorder)
+    				tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldBorderText, newBorderText)
+        		}
+        		tempTasks.clear()
             }
             // Delete a Task
             userInput.equals("5", true) -> {

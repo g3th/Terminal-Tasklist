@@ -5,7 +5,7 @@ import kotlinx.datetime.*
 import com.squareup.moshi.*
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-data class TasksToJson(val date: String, val time: String, val priority: String, val dueTag: String, val task: String)
+data class TasksToJson(var date: String, var time: String, var priority: String, var dueTag: String, var task: String)
 
 class SaveReadJsonFile {
 
@@ -43,7 +43,7 @@ class SaveReadJsonFile {
         }
     }
 
-    data class FilledTasks (val timeDate: MutableList<String>, val listOfTasks: MutableList<String>, )
+    data class FilledTasks (val timeDate: MutableList<String>, val listOfTasks: MutableList<String>)
     fun readJsonAndFillTasks(timedate: MutableList<String>, jsonTasks: MutableList<TasksToJson?>): FilledTasks {
         var r = mutableListOf<String>()
         for (i in jsonTasks.indices) {
