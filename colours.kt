@@ -61,7 +61,7 @@ class ColourEditor {
 				try {
 					val input = readln()
 					if (validInput.any { it != input } ){
-						println("Invalid input.")
+						println("Invalid input")
 					} else {
 		 				when (input) {			
 							"1" -> { 
