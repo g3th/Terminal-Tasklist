@@ -55,7 +55,7 @@ class PrintOut {
 		Divide the list into chunks of 44 characters, whether it has multiple elements (rows) or not.
 		This is due to the fact that only a maximum of 44 characters fit a row in the "Tasks" column.
 		
-		Then, iterate through the chunks:
+		Iterate through the chunks:
 		If the element length is less than 44 characters, and there is only one element in the chunked list,
 		it is only a single row. Therefore, append the correct amount of spaces to the length of the element
 		with simple subtraction.
