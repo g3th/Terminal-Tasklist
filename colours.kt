@@ -52,7 +52,10 @@ class ColourEditor {
 		setTT = "34"
 		while(true) {
 			if (gradientStart != null) {
-				println("Input your chosen colour scheme:\n")
+				clearScreen()
+				PrintOut().table()
+				colorMatrixPrintout()
+				println("\n\n${escSeq}${setText}mInput your chosen colour scheme:\n")
 				println("1. Border Colour")
 				println("2. Text Colour")
 				println("3. Table Borders Colour")
@@ -60,20 +63,29 @@ class ColourEditor {
 				val validInput = listOf("1","2","3")			
 				try {
 					val input = readln()
-					if (validInput.any { it != input } ){
+					if (validInput.all { it != input } ){
 						println("Invalid input")
 					} else {
 		 				when (input) {			
-							"1" -> { 
-								print("Table Colour (0 - 255): > ")
+							"1" -> {
+								clearScreen()
+								PrintOut().table()
+								colorMatrixPrintout()
+								print("\n\n${escSeq}${setText}mTable Colour (0 - 255): > ")
 								setB = readln()
 							}							
 							"2" -> {
-								print("Table Text Colour (0 - 255): > ")
+								clearScreen()
+								PrintOut().table()
+								colorMatrixPrintout()
+								print("\n\n${escSeq}${setText}mTable Text Colour (0 - 255): > ")
 								setT = readln()
 							}							
 							"3" -> {
-								print("Table Border Colour (0 - 255): > ")
+								clearScreen()
+								PrintOut().table()
+								colorMatrixPrintout()
+								print("\n\n${escSeq}${setText}mTable Border Colour (0 - 255): > ")
 								setTT = readln()
 							}
 						}
@@ -85,7 +97,6 @@ class ColourEditor {
 							readln()
 						} else {
 							saveColours()
-							break
 						}
 					}
 				} catch (e: NumberFormatException){
@@ -118,8 +129,27 @@ class ColourEditor {
 		setTable = colorSchemeContent[2].split(";")[2].replace("m","").toInt()
 	}
 	
-	fun colorsLegend(){
-		val col = 0
-		print("\u001B38;5;${col}")
+	fun colorMatrixPrintout(){
+    	val matrix = listOf(
+		    (0..255 step 16).toList(), (1..255 step 16).toList(), (2..255 step 16).toList(),
+		    (3..255 step 16).toList(), (4..255 step 16).toList(), (5..255 step 16).toList(),
+		    (6..255 step 16).toList(), (7..255 step 16).toList(), (8..255 step 16).toList(),
+		    (9..255 step 16).toList(), (10..255 step 16).toList(), (11..255 step 16).toList(),
+		    (12..255 step 16).toList(), (13..255 step 16).toList(), (13..255 step 16).toList(),
+		    (14..255 step 16).toList(), (15..255 step 16).toList()
+    	)
+		println("\u001B[38;5;255mThe Colour Matrix:")
+		for (i in matrix) {
+		    println()
+		    for (j in i) {
+		        if (j < 10) {
+		            print("\u001B[38;5;255m$j  \u001B[48;5;${j}m  \u001B[0m ")
+		        } else if (j in 10..99){
+		            print("\u001B[38;5;255m$j \u001B[48;5;${j}m  \u001B[0m ")
+		        } else {
+		            print("\u001B[38;5;255m$j\u001B[48;5;${j}m  \u001B[0m ")
+		        }
+		    }
+		}
 	}
 }
