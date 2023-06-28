@@ -85,8 +85,6 @@ class TaskList {
                 val taskIndex = readln().toInt()
 				val currentTaskPriority = storeJson[taskIndex - 1]!!.priority
 				val currentTaskDate = storeJson[taskIndex - 1]!!.date
-				println("Current Task Date: $currentTaskDate")
-				readln()	
 				inputtedDate = listOf(tasksTimeDatePriority[0].split("-")[0],
 				tasksTimeDatePriority[0].split("-")[1],
 				tasksTimeDatePriority[0].split("-")[2].split(" ")[0])
@@ -111,8 +109,6 @@ class TaskList {
                                     val assignNewDate = tasksTimeDatePriority[taskIndex - 1]
                                         .replaceFirst(currentTaskDate.toString(), givenTaskDate.toString())
                                         .replaceFirst(currentTag, tag)
-									println("New Task Date: $givenTaskDate")
-									readln()	
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewDate
                                     storeJson[taskIndex -1]!!.date = givenTaskDate.toString()
                                 }
@@ -139,6 +135,8 @@ class TaskList {
                 }
             } catch (e: NumberFormatException) {
                 println("Invalid task number")
+				println("\nPress Enter to Continue...")
+				readln()
             }
         }
     }
@@ -240,7 +238,7 @@ class TaskList {
                 println("Press Enter to Continue...")
                 readln()
             } catch (e2: Exception){
-            	println(e2)
+            	println("Invalid Time")
             	println("Press Enter to Continue...")
             	readln()
             }
@@ -265,16 +263,20 @@ class TaskList {
             print("> ")
             val input = readln()
             when {
-                taskPriorities.any { it.equals(input, true) } -> {
-                    when {
-                        input.equals("1", ignoreCase = true) -> taskPriority = "\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m" // Red
-                        input.equals("2", ignoreCase = true) -> taskPriority = "\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"	// Yellow
-                        input.equals("3", ignoreCase = true) -> taskPriority = "\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"	// Green
-                        input.equals("4", ignoreCase = true) -> taskPriority = "\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"	// Blue
+                taskPriorities.any { it == input } -> {
+                    when (input) {
+                       "1"-> taskPriority = "\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"// Red
+                       "2"-> taskPriority = "\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"// Yellow
+                       "3"-> taskPriority = "\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"// Green
+                       "4"-> taskPriority = "\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m"// Blue
                     }
                     break
                 }
-                else -> println("Invalid")
+                else -> {
+                	println("Invalid Input")
+					println("\nPress Enter to Continue...")
+					readln()
+					}
             }
         }
         result = ""
@@ -305,7 +307,7 @@ fun main() {
                 readln()
 	        }
             // Add Task
-            userInput.equals("1", true) -> {
+            userInput == "1" -> {
                 tasks.addTask()
                 tasks.storeJson.add(savedList.formatJson(tasks.givenTaskDate.toString(),
                     tasks.givenTaskDateAndTime,
@@ -315,7 +317,7 @@ fun main() {
                 tasks.jsonTaskList = ""
             }
             // Print Task
-            userInput.equals("2", true) -> {
+            userInput == "2" -> {
             	clearScreen()
             	print.table()
 				print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
@@ -323,7 +325,7 @@ fun main() {
 				readln()
             }
             // Set Layout Colours
-            userInput.equals("3", true) -> {
+            userInput == "3" -> {
             	clearScreen()
 				print.table()
 				val oldText = "${ColourEditor().escSeq}${ColourEditor().setText}m"
@@ -349,21 +351,21 @@ fun main() {
         		tempTasks.clear()
             }
             // Delete a Task
-            userInput.equals("5", true) -> {
+            userInput == "5" -> {
             	clearScreen()
             	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
                 tasks.deleteTask()
             }
             // Edit Mode
-            userInput.equals("4", true) -> {
+            userInput == "4" -> {
             	clearScreen()
             	print.table()
                 print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
                 tasks.editTask()
             }
             // Quit
-            userInput.equals("6", true) -> {
+            userInput == "6" -> {
                 println("\nGoodbye.")
                 if (tasks.storeJson.isNotEmpty()){
                 	savedList.saveJson(tasks.storeJson)

@@ -56,13 +56,12 @@ class ColourEditor {
 				println("1. Border Colour")
 				println("2. Text Colour")
 				println("3. Table Borders Colour")
-				print("> ")			
+				print("> ")
+				val validInput = listOf("1","2","3")			
 				try {
 					val input = readln()
-					if (setB.toInt() < 0 || setB.toInt() > 255 || setT.toInt() < 0 || setT.toInt() > 255 || setTT.toInt() < 0 || setTT.toInt() > 255){
-							println("One of the values entered was invalid.")
-							println("Press Enter to Continue...")
-							readln()
+					if (validInput.any { it != input } ){
+						println("Invalid input.")
 					} else {
 		 				when (input) {			
 							"1" -> { 
@@ -78,8 +77,16 @@ class ColourEditor {
 								setTT = readln()
 							}
 						}
-						saveColours()
-						break
+						if (setB.toInt() < 0 || setB.toInt() > 255 
+							|| setT.toInt() < 0 || setT.toInt() > 255 
+							|| setTT.toInt() < 0 || setTT.toInt() > 255){
+							println("One of the values entered was invalid.")
+							println("Press Enter to Continue...")
+							readln()
+						} else {
+							saveColours()
+							break
+						}
 					}
 				} catch (e: NumberFormatException){
 					println("One of the values entered is not a number")
