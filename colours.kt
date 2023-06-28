@@ -50,21 +50,24 @@ class ColourEditor {
 		setB = "34"
 		setT = "34"
 		setTT = "34"
-		while(true) {
+		top@while(true) {
 			if (gradientStart != null) {
 				clearScreen()
 				PrintOut().table()
 				colorMatrixPrintout()
 				println("\n\n${escSeq}${setText}mInput your chosen colour scheme:\n")
-				println("1. Border Colour")
+				println("1. Table Text Colour")
 				println("2. Text Colour")
 				println("3. Table Borders Colour")
+				println("4. End")
 				print("> ")
-				val validInput = listOf("1","2","3")			
+				val validInput = listOf("1","2","3","4")			
 				try {
 					val input = readln()
 					if (validInput.all { it != input } ){
 						println("Invalid input")
+						println("Press Enter to Continue")
+						readln()
 					} else {
 		 				when (input) {			
 							"1" -> {
@@ -88,6 +91,10 @@ class ColourEditor {
 								print("\n\n${escSeq}${setText}mTable Border Colour (0 - 255): > ")
 								setTT = readln()
 							}
+							"4" -> {
+								saveColours()
+								break@top
+							}
 						}
 						if (setB.toInt() < 0 || setB.toInt() > 255 
 							|| setT.toInt() < 0 || setT.toInt() > 255 
@@ -95,14 +102,12 @@ class ColourEditor {
 							println("One of the values entered was invalid.")
 							println("Press Enter to Continue...")
 							readln()
-						} else {
-							saveColours()
 						}
 					}
 				} catch (e: NumberFormatException){
 					println("One of the values entered is not a number")
 					readln()
-				}				
+				}		
 		} else {
 			gradientStart = 34
 			setBorder = 34
@@ -138,7 +143,9 @@ class ColourEditor {
 		    (12..255 step 16).toList(), (13..255 step 16).toList(), (13..255 step 16).toList(),
 		    (14..255 step 16).toList(), (15..255 step 16).toList()
     	)
-		println("\u001B[38;5;255mThe Colour Matrix:")
+		println("\u001B[38;5;255mCurrent Colour Scheme:")
+		println("\u001B[38;5;255mTable Text:${escSeq}${setTableText}m█ Table Border:${escSeq}${setBorder}m█ Main Text:${escSeq}${setText}m█")
+		//setBorder: Int? = null
 		for (i in matrix) {
 		    println()
 		    for (j in i) {
