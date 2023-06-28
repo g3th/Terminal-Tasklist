@@ -42,13 +42,13 @@ class PrintOut {
 		}
 		
 	fun userOptions(){
-		println("${ColourEditor().escSeq}${ColourEditor().setText!!}mInput an action:\n----------------")
-		println("${ColourEditor().escSeq}${ColourEditor().setText!!+36}m1. Add")
-		println("${ColourEditor().escSeq}${ColourEditor().setText!!+72}m2. Print")
-		println("${ColourEditor().escSeq}${ColourEditor().setText!!+108}m3. Set Colours")
+		println("${ColourEditor().escSeq}${ColourEditor().setText}mInput an action:\n----------------")
+		println("${ColourEditor().escSeq}${ColourEditor().setText}m1. Add")
+		println("${ColourEditor().escSeq}${ColourEditor().setText}m2. Print")
+		println("${ColourEditor().escSeq}${ColourEditor().setText}m3. Set Colours")
 		println("${ColourEditor().escSeq}${ColourEditor().setText}m4. Edit")
-		println("${ColourEditor().escSeq}${ColourEditor().setText!!+108}m5. Delete")
-		println("${ColourEditor().escSeq}${ColourEditor().setText!!+72}m6. End")					
+		println("${ColourEditor().escSeq}${ColourEditor().setText}m5. Delete")
+		println("${ColourEditor().escSeq}${ColourEditor().setText}m6. End")					
 	}
 	
 	/*	Format the task list:
