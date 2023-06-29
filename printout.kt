@@ -37,8 +37,8 @@ class PrintOut {
 		println("${ColourEditor().escSeq}${ColourEditor().gradientStart!!+36}m   ██║   ██║  ██║███████║██║  ██╗███████╗██║███████║   ██║")
 		println("${ColourEditor().escSeq}${ColourEditor().gradientStart}m   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝\n")
 		println("----------------- https://github.com/g3th -------------------\n")
-		tableBorder = "${ColourEditor().escSeq}${ColourEditor().setTable}m+----+------------+-------+---+---+--------------------------------------------+"
-		tableElements = "${ColourEditor().escSeq}${ColourEditor().setTable}m| ${ColourEditor().escSeq}${ColourEditor().setBorder}mN${ColourEditor().escSeq}${ColourEditor().setTable}m  |    ${ColourEditor().escSeq}${ColourEditor().setBorder}mDate${ColourEditor().escSeq}${ColourEditor().setTable}m    | ${ColourEditor().escSeq}${ColourEditor().setBorder}mTime${ColourEditor().escSeq}${ColourEditor().setTable}m  | ${ColourEditor().escSeq}${ColourEditor().setBorder}mP${ColourEditor().escSeq}${ColourEditor().setTable}m | ${ColourEditor().escSeq}${ColourEditor().setBorder}mD${ColourEditor().escSeq}${ColourEditor().setTable}m |                   ${ColourEditor().escSeq}${ColourEditor().setBorder}mTask${ColourEditor().escSeq}${ColourEditor().setTable}m                     |"
+		tableBorder = "${ColourEditor().escSeq}${ColourEditor().setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
+		tableElements = "${ColourEditor().escSeq}${ColourEditor().setTableText}m| ${ColourEditor().escSeq}${ColourEditor().setTableText}mN${ColourEditor().escSeq}${ColourEditor().setTableText}m  |    ${ColourEditor().escSeq}${ColourEditor().setTableText}mDate${ColourEditor().escSeq}${ColourEditor().setTableText}m    | ${ColourEditor().escSeq}${ColourEditor().setTableText}mTime${ColourEditor().escSeq}${ColourEditor().setTableText}m  | ${ColourEditor().escSeq}${ColourEditor().setTableText}mP${ColourEditor().escSeq}${ColourEditor().setTableText}m | ${ColourEditor().escSeq}${ColourEditor().setTableText}mD${ColourEditor().escSeq}${ColourEditor().setTableText}m |                   ${ColourEditor().escSeq}${ColourEditor().setTableText}mTask${ColourEditor().escSeq}${ColourEditor().setTableText}m                     |"
 		}
 		
 	fun userOptions(){
@@ -73,16 +73,16 @@ class PrintOut {
         for(i in chunkedList.indices){
             if (chunkedList[i].length < 44) {
                 if (i == 0){
-                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
+                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
 
                 } else {
-                    printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
+                    printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
                 }
             } else {
             	if (i == 0){
-                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
+                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
                 } else {
-                	printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTable}m|"
+                	printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
             		}
             	}
             }
@@ -106,7 +106,7 @@ class PrintOut {
         // Print already formatted tasks
         for ((a,b) in tasklist) {
             for (c in a.indices) {
-                print("| ${ColourEditor().escSeq}${ColourEditor().setBorder}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${a[c]} |${b[c]}\n")
+                print("| ${ColourEditor().escSeq}${ColourEditor().setBorder}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} |${b[c]}\n")
                 println(tableBorder)
                 counter++
             }

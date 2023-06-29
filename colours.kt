@@ -9,7 +9,6 @@ class ColourEditor {
 	lateinit var setTT: String
 	var setBorder: Int? = null
 	var setText: Int? = null
-	var setTable: Int? = null
 	var setTableText: Int? = null
 	var gradientStart: Int? = null
 	val colorScheme = File("colorScheme")
@@ -22,7 +21,10 @@ class ColourEditor {
 				gradientStart = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
 				setBorder = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
 				setText = colorSchemeContent[1].split(";")[2].replace("m","").toInt()
-				setTable = colorSchemeContent[2].split(";")[2].replace("m","").toInt()
+				setTableText = colorSchemeContent[2].split(";")[2].replace("m","").toInt()
+				setB = setBorder.toString()
+				setT = setText.toString()
+				setTT = setB.toString()
 			} catch (e: NumberFormatException){
 				clearScreen()
 				println("The color scheme file is invalid. \nPlease delete it and start again\n")
@@ -38,26 +40,24 @@ class ColourEditor {
 	
 	fun reformatColours(tasksTimeDatePriority: String, tempStore: TaskList.ReformatColours): String {
 		val ttdp = tasksTimeDatePriority
-				.replace(tempStore.date, "${escSeq}${setText}m${tempStore.date}${escSeq}${setTable}m")
-				.replace(tempStore.time, "${escSeq}${setText}m${tempStore.time}${escSeq}${setTable}m")
-				.replace(tempStore.priority, "${escSeq}${setText}m${tempStore.priority}${escSeq}${setTable}m")
-				.replace(tempStore.due, "${escSeq}${setText}m${tempStore.due}${escSeq}${setTable}m")
+				.replace(tempStore.date, "${escSeq}${setText}m${tempStore.date}${escSeq}${setTableText}m")
+				.replace(tempStore.time, "${escSeq}${setText}m${tempStore.time}${escSeq}${setTableText}m")
+				.replace(tempStore.priority, "${escSeq}${setText}m${tempStore.priority}${escSeq}${setTableText}m")
+				.replace(tempStore.due, "${escSeq}${setText}m${tempStore.due}${escSeq}${setTableText}m")
 
 		return ttdp
 	}
 	
 	fun setColour(){
-		setB = "34"
-		setT = "34"
-		setTT = "34"
+
 		top@while(true) {
 			if (gradientStart != null) {
 				clearScreen()
 				PrintOut().table()
 				colorMatrixPrintout()
 				println("\n\n${escSeq}${setText}mInput your chosen colour scheme:\n")
-				println("1. Table Text Colour")
-				println("2. Text Colour")
+				println("1. Main Text Colour")
+				println("2. Table Text Colour")
 				println("3. Table Borders Colour")
 				println("4. End")
 				print("> ")
@@ -74,25 +74,29 @@ class ColourEditor {
 								clearScreen()
 								PrintOut().table()
 								colorMatrixPrintout()
-								print("\n\n${escSeq}${setText}mTable Colour (0 - 255): > ")
-								setB = readln()
+								print("\n\n${escSeq}${setText}mMain Text Colour (0 - 255): > ")
+								setT = readln()
 							}							
 							"2" -> {
 								clearScreen()
 								PrintOut().table()
 								colorMatrixPrintout()
 								print("\n\n${escSeq}${setText}mTable Text Colour (0 - 255): > ")
-								setT = readln()
+								setTT = readln()
 							}							
 							"3" -> {
 								clearScreen()
 								PrintOut().table()
 								colorMatrixPrintout()
 								print("\n\n${escSeq}${setText}mTable Border Colour (0 - 255): > ")
-								setTT = readln()
+								setB = readln()
 							}
 							"4" -> {
 								saveColours()
+								println(setT)
+								println(setB)
+								println(setTT)
+								readln()
 								break@top
 							}
 						}
@@ -112,6 +116,7 @@ class ColourEditor {
 			gradientStart = 34
 			setBorder = 34
 			setText = 34
+			setTableText = 34
 			println("Table color scheme not found,")
 			println("so I set a default colour scheme.")
 			println("\nPress Enter to Continue...")
@@ -129,9 +134,9 @@ class ColourEditor {
 		colorScheme.appendText("${escSeq}${setTT}m")
 		colorSchemeContent = colorScheme.readLines()
 		gradientStart = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
-		setBorder = gradientStart
+		setBorder = colorSchemeContent[0].split(";")[2].replace("m","").toInt()
 		setText = colorSchemeContent[1].split(";")[2].replace("m","").toInt()
-		setTable = colorSchemeContent[2].split(";")[2].replace("m","").toInt()
+		setTableText = colorSchemeContent[2].split(";")[2].replace("m","").toInt()
 	}
 	
 	fun colorMatrixPrintout(){

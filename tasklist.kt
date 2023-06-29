@@ -331,11 +331,11 @@ fun main() {
 				print.table()
 				val oldText = "${ColourEditor().escSeq}${ColourEditor().setText}m"
 				val oldBorder = "${ColourEditor().escSeq}${ColourEditor().setBorder}m"
-				val oldBorderText = "${ColourEditor().escSeq}${ColourEditor().setTable}m"
+				val oldBorderText = "${ColourEditor().escSeq}${ColourEditor().setTableText}m"
             	colours.setColour()
             	val newText = "${ColourEditor().escSeq}${ColourEditor().setText}m"
 				val newBorder = "${ColourEditor().escSeq}${ColourEditor().setBorder}m"
-				val newBorderText = "${ColourEditor().escSeq}${ColourEditor().setTable}m"
+				val newBorderText = "${ColourEditor().escSeq}${ColourEditor().setTableText}m"
             	tasks.tasks.clear()
         		val tempTasks = mutableListOf<String>()
         		for (i in tasks.storeJson){
