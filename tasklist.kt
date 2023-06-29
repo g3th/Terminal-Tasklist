@@ -119,8 +119,9 @@ class TaskList {
                                     time()
                                     val assignNewTime = tasksTimeDatePriority[taskIndex - 1]
                                     .replace(currentTime, "${ColourEditor().escSeq}${ColourEditor().setText}m ${givenTaskDateAndTime.split("T")[1]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m")
-                                    
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewTime
+                                    storeJson[taskIndex -1]!!.time = currentTimeDateAndTaskPriority.split(" ")[1]
+                                    println(storeJson[taskIndex - 1]!!.time)
                                     readln()
                                 }
                                 input.equals("task", true) -> {
@@ -250,6 +251,10 @@ class TaskList {
             	println("Invalid Time")
             	println("Press Enter to Continue...")
             	readln()
+            } catch (e3: IllegalArgumentException) {
+            	println("Invalid Time")
+				println("Press Enter to Continue...")
+				readln()
             }
         }
     }
@@ -311,7 +316,7 @@ fun main() {
         val userInput = readln()
         when {
 	        actionList.any { userInput.equals(it, true) } && tasks.tasks.isEmpty() -> {
-	            println("\nNo tasks have been input")
+	            println("\nNo tasks have been entered")
                 println("Press Enter To Continue...")
                 readln()
 	        }
