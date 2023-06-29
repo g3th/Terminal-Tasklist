@@ -92,12 +92,12 @@ class PrintOut {
         val tasklist = mutableListOf(tasks(tasksDateTimePriority, tasks))
         var counter = 1
 		// Priority Legend
-		print("${ColourEditor().escSeq}${ColourEditor().setText}mPriority: \u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mCritical | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setTableText}mPriority: \u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setText}mCritical | ")
 		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mHigh | ")
 		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mNormal | ")
 		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mLow\n\n")
 		// Tag Legend
-		print("${ColourEditor().escSeq}${ColourEditor().setText}mDue Tags: ")
+		print("${ColourEditor().escSeq}${ColourEditor().setTableText}mDue Tags: ")
 		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mOverdue | ")
 		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mComing Up Shortly | ")
 		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mIn Time\n\n")
