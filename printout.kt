@@ -38,7 +38,7 @@ class PrintOut {
 		println("${ColourEditor().escSeq}${ColourEditor().gradientStart}m   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝\n")
 		println("----------------- https://github.com/g3th -------------------\n")
 		tableBorder = "${ColourEditor().escSeq}${ColourEditor().setBorder}m+----+------------+-------+---+---+--------------------------------------------+"
-		tableElements = "${ColourEditor().escSeq}${ColourEditor().setTableText}m| ${ColourEditor().escSeq}${ColourEditor().setTableText}mN${ColourEditor().escSeq}${ColourEditor().setTableText}m  |    ${ColourEditor().escSeq}${ColourEditor().setTableText}mDate${ColourEditor().escSeq}${ColourEditor().setTableText}m    | ${ColourEditor().escSeq}${ColourEditor().setTableText}mTime${ColourEditor().escSeq}${ColourEditor().setTableText}m  | ${ColourEditor().escSeq}${ColourEditor().setTableText}mP${ColourEditor().escSeq}${ColourEditor().setTableText}m | ${ColourEditor().escSeq}${ColourEditor().setTableText}mD${ColourEditor().escSeq}${ColourEditor().setTableText}m |                   ${ColourEditor().escSeq}${ColourEditor().setTableText}mTask${ColourEditor().escSeq}${ColourEditor().setTableText}m                     |"
+		tableElements = "${ColourEditor().escSeq}${ColourEditor().setBorder}m| ${ColourEditor().escSeq}${ColourEditor().setTableText}mN${ColourEditor().escSeq}${ColourEditor().setBorder}m  |    ${ColourEditor().escSeq}${ColourEditor().setTableText}mDate${ColourEditor().escSeq}${ColourEditor().setBorder}m    | ${ColourEditor().escSeq}${ColourEditor().setTableText}mTime${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setTableText}mP${ColourEditor().escSeq}${ColourEditor().setBorder}m | ${ColourEditor().escSeq}${ColourEditor().setTableText}mD${ColourEditor().escSeq}${ColourEditor().setBorder}m |                   ${ColourEditor().escSeq}${ColourEditor().setTableText}mTask${ColourEditor().escSeq}${ColourEditor().setBorder}m                     |"
 		}
 		
 	fun userOptions(){
@@ -94,19 +94,19 @@ class PrintOut {
         var counter = 1
 		// Priority Legend
 		print("${ColourEditor().escSeq}${ColourEditor().setText}mPriority: \u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mCritical | ")
-		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mHigh | ")
-		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mNormal | ")
-		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mLow\n\n")
+		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;226m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mHigh | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mNormal | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mLow\n\n")
 		// Tag Legend
 		print("${ColourEditor().escSeq}${ColourEditor().setText}mDue Tags: ")
-		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mOverdue | ")
-		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mComing Up Shortly | ")
-		print("${ColourEditor().escSeq}${ColourEditor().setBorder}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setBorder}m = ${ColourEditor().escSeq}${ColourEditor().setBorder}mIn Time\n\n")
+		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;196m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mOverdue | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;76m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mComing Up Shortly | ")
+		print("${ColourEditor().escSeq}${ColourEditor().setText}m\u001B[38;5;45m█${ColourEditor().escSeq}${ColourEditor().setText}m = ${ColourEditor().escSeq}${ColourEditor().setText}mIn Time\n\n")
         print("${tableBorder}\n${tableElements}\n${tableBorder}\n")
         // Print already formatted tasks
         for ((a,b) in tasklist) {
             for (c in a.indices) {
-                print("| ${ColourEditor().escSeq}${ColourEditor().setBorder}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} |${b[c]}\n")
+                print("| ${ColourEditor().escSeq}${ColourEditor().setText}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} |${b[c]}\n")
                 println(tableBorder)
                 counter++
             }
