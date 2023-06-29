@@ -79,7 +79,7 @@ class TaskList {
 		For every field, change both lists, the one to be saved to file (json)
 		and the ones used by the program.
 	*/
-        fun editTask() {
+        fun editTask(): Int {
         topOfLoop@ while (true) {
             println("Input the task number (1-${tasksTimeDatePriority.size}):")
             try {
@@ -130,14 +130,20 @@ class TaskList {
 							println("\nThe task is changed")
 							println("\nPress Enter to Continue...")
 							readln()
-							break@topOfLoop
+							return 0
                         }
                     }
                 }
             } catch (e: NumberFormatException) {
-                println("Invalid task number")
+                println("Please enter a numeric value, you moron")
 				println("\nPress Enter to Continue...")
 				readln()
+				return 1
+            } catch (e1: IndexOutOfBoundsException) {
+            	println("Task number exceeds total number of tasks present, you moron")
+				println("\nPress Enter to Continue...")
+				readln()
+				return 1
             }
         }
     }
@@ -360,10 +366,16 @@ fun main() {
             }
             // Edit Mode
             userInput == "4" -> {
-            	clearScreen()
-            	print.table()
-                print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
-                tasks.editTask()
+
+                while (true){
+					clearScreen()
+					print.table()
+					print.printTasks(tasks.tasksTimeDatePriority, tasks.tasks)
+                	val returnValue = tasks.editTask()
+                	if (returnValue == 0){
+                		break
+            		}
+        		}
             }
             // Quit
             userInput == "6" -> {
