@@ -49,7 +49,6 @@ class ColourEditor {
 	}
 	
 	fun setColour(){
-
 		top@while(true) {
 			if (gradientStart != null) {
 				clearScreen()
@@ -93,10 +92,6 @@ class ColourEditor {
 							}
 							"4" -> {
 								saveColours()
-								println(setT)
-								println(setB)
-								println(setTT)
-								readln()
 								break@top
 							}
 						}
@@ -149,8 +144,7 @@ class ColourEditor {
 		    (14..255 step 16).toList(), (15..255 step 16).toList()
     	)
 		println("\u001B[38;5;255mCurrent Colour Scheme:")
-		println("\u001B[38;5;255mTable Text:${escSeq}${setTableText}m█ Table Border:${escSeq}${setBorder}m█ Main Text:${escSeq}${setText}m█")
-		//setBorder: Int? = null
+		println("\u001B[38;5;255mTable Text: ${escSeq}${setTT}m█\u001B[38;5;255m | Table Border: ${escSeq}${setB}m█\u001B[38;5;255m | Main Text: ${escSeq}${setT}m█")
 		for (i in matrix) {
 		    println()
 		    for (j in i) {
