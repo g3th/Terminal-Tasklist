@@ -88,7 +88,6 @@ class PrintOut {
             }
         return printoutInput
     }
-
     fun printTasks(tasksDateTimePriority: MutableList<String>, tasks:MutableList<String>) {
         val tasklist = mutableListOf(tasks(tasksDateTimePriority, tasks))
         var counter = 1
@@ -106,7 +105,7 @@ class PrintOut {
         // Print already formatted tasks
         for ((a,b) in tasklist) {
             for (c in a.indices) {
-                print("| ${ColourEditor().escSeq}${ColourEditor().setText}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m|${b[c]}\n")
+                print("| ${ColourEditor().escSeq}${ColourEditor().setTableText}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m|${b[c]}\n")
                 println(tableBorder)
                 counter++
             }
