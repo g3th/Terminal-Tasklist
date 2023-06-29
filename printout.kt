@@ -73,16 +73,16 @@ class PrintOut {
         for(i in chunkedList.indices){
             if (chunkedList[i].length < 44) {
                 if (i == 0){
-                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
+                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setBorder}m|"
 
                 } else {
-                    printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
+                    printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]} ${" ".repeat(43 - chunkedList[i].length)}${ColourEditor().escSeq}${ColourEditor().setBorder}m|"
                 }
             } else {
             	if (i == 0){
-                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
+                    printoutInput += "${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setBorder}m|"
                 } else {
-                	printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setTableText}m|"
+                	printoutInput += "\n|    |            |       |   |   |${ColourEditor().escSeq}${ColourEditor().setText}m${chunkedList[i]}${ColourEditor().escSeq}${ColourEditor().setBorder}m|"
             		}
             	}
             }
@@ -106,7 +106,7 @@ class PrintOut {
         // Print already formatted tasks
         for ((a,b) in tasklist) {
             for (c in a.indices) {
-                print("| ${ColourEditor().escSeq}${ColourEditor().setText}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} |${b[c]}\n")
+                print("| ${ColourEditor().escSeq}${ColourEditor().setText}m$counter${ColourEditor().escSeq}${ColourEditor().setBorder}m  | ${ColourEditor().escSeq}${ColourEditor().setText}${a[c]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m|${b[c]}\n")
                 println(tableBorder)
                 counter++
             }

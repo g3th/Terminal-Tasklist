@@ -347,7 +347,7 @@ fun main() {
         		for (i in tasks.tasksTimeDatePriority.indices){
     				tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldText, newText)
     				tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldBorder, newBorder)
-    				tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldBorderText, newBorderText)
+    				//tasks.tasksTimeDatePriority[i] = tasks.tasksTimeDatePriority[i].replace(oldBorderText, newBorderText)
         		}
         		tempTasks.clear()
             }
