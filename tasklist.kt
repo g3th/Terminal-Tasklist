@@ -114,11 +114,14 @@ class TaskList {
                                     storeJson[taskIndex -1]!!.date = givenTaskDate.toString()
                                 }
                                 input.equals("time", true) -> {
-                                    val currentTime = tasksTimeDatePriority[taskIndex - 1].split(" | ")[1]
+                                    // Clean Escape Sequence from Inputs
+                                    val currentTime = tasksTimeDatePriority[taskIndex - 1].split("|")[1]
                                     time()
                                     val assignNewTime = tasksTimeDatePriority[taskIndex - 1]
-                                        .replaceFirst(currentTime, givenTaskDateAndTime.split("T")[1])
+                                    .replace(currentTime, "${ColourEditor().escSeq}${ColourEditor().setText}m ${givenTaskDateAndTime.split("T")[1]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m")
+                                    
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewTime
+                                    readln()
                                 }
                                 input.equals("task", true) -> {
                                     taskIsBeingEdited = true
@@ -222,7 +225,6 @@ class TaskList {
     	}
 
     private fun time() {
-
         while (true) {
         	clearScreen()
         	PrintOut().table()
@@ -232,19 +234,19 @@ class TaskList {
             val inputtedTime = readln().split(":")
             try {
                 givenTaskDateAndTime = LocalDateTime(
-                    inputtedDate[0].toInt(), inputtedDate[1].toInt(),
-                    inputtedDate[2].toInt(), inputtedTime[0].toInt(), inputtedTime[1].toInt()
+                    inputtedDate[0].replace("${ColourEditor().escSeq}${ColourEditor().setText}m","").toInt(), inputtedDate[1].replace("${ColourEditor().escSeq}${ColourEditor().setText}m","").toInt(),
+                    inputtedDate[2].replace("${ColourEditor().escSeq}${ColourEditor().setText}m","").toInt(), inputtedTime[0].replace("${ColourEditor().escSeq}${ColourEditor().setText}m","").toInt(), inputtedTime[1].replace("${ColourEditor().escSeq}${ColourEditor().setText}m","").toInt()
                 ).toString()
                 currentTimeDateAndTaskPriority = "${
                     givenTaskDateAndTime
                         .replace("T", " ")
                 } $taskPriority $tag"
                 break
-            } catch (e1: java.lang.IndexOutOfBoundsException) {
+            } catch (e1: IndexOutOfBoundsException) {
                 println("Incomplete Time")
                 println("Press Enter to Continue...")
                 readln()
-            } catch (e2: Exception){
+            } catch (e2: NumberFormatException){
             	println("Invalid Time")
             	println("Press Enter to Continue...")
             	readln()
