@@ -40,10 +40,10 @@ class ColourEditor {
 	
 	fun reformatColours(tasksTimeDatePriority: String, tempStore: TaskList.ReformatColours): String {
 		val ttdp = tasksTimeDatePriority
-				.replace(tempStore.date, "${escSeq}${setText}m${tempStore.date}${escSeq}${setTableText}m")
-				.replace(tempStore.time, "${escSeq}${setText}m${tempStore.time}${escSeq}${setTableText}m")
-				.replace(tempStore.priority, "${escSeq}${setText}m${tempStore.priority}${escSeq}${setTableText}m")
-				.replace(tempStore.due, "${escSeq}${setText}m${tempStore.due}${escSeq}${setTableText}m")
+				.replace(tempStore.date, "${escSeq}${setText}m${tempStore.date}${escSeq}${setBorder}m")
+				.replace(tempStore.time, "${escSeq}${setText}m${tempStore.time}${escSeq}${setBorder}m")
+				.replace(tempStore.priority, "${escSeq}${setText}m${tempStore.priority}${escSeq}${setBorder}m")
+				.replace(tempStore.due, "${escSeq}${setText}m${tempStore.due}${escSeq}${setBorder}m")
 
 		return ttdp
 	}
