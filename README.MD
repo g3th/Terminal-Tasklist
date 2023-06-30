@@ -8,14 +8,6 @@ A project which implements a task-list for terminals, with simple TUI menu which
 
 The task section of the table only has space for 44 characters at most, and the layout class is able to adequately split larger inputs into various chunks, and subsequently organize them into the appropriate format.
 
-Allows the user to:
-
-1) Add Tasks by number (i.e. 1 - Dentist)
-2) Add current date and time for tasks (i.e. 1 2023-11-11 11:33)
-3) Add a task priority (i.e. 1 2023-11-11 11:33 C (for Critical))
-4) Edit every aspect of the created task, from date to rewriting the task itself.
-5) Change main text, table text and table border colours.
-
 The program will also attach a 'due-date-tag' to the top of the task, next to date/time, to indicate whether the task is overdue or ontime.
 
 Finally, save the task-list in Json format using the Moshi library, and re-load the list everytime the program starts.
@@ -39,7 +31,7 @@ Run with:
 
 TODO:
 
-Minor Layout Fixes (i.e. user menus newlines, style consistency etc...)
+Print to PDF
 
 More customization options (i.e. skip task date)
 
