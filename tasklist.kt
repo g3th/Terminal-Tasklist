@@ -121,8 +121,6 @@ class TaskList {
                                     .replace(currentTime, "${ColourEditor().escSeq}${ColourEditor().setText}m ${givenTaskDateAndTime.split("T")[1]} ${ColourEditor().escSeq}${ColourEditor().setBorder}m")
                                     tasksTimeDatePriority[taskIndex - 1] = assignNewTime
                                     storeJson[taskIndex -1]!!.time = currentTimeDateAndTaskPriority.split(" ")[1]
-                                    println(storeJson[taskIndex - 1]!!.time)
-                                    readln()
                                 }
                                 input.equals("task", true) -> {
                                     taskIsBeingEdited = true
