@@ -302,13 +302,9 @@ fun main() {
     val tasks = TaskList()
     val actionList = listOf("2", "4", "5") //These are actions which won't function with an empty task list.
     val savedList = SaveReadJsonFile()
-    val date = Clock.System.now()
-    .toLocalDateTime(TimeZone.of("UTC+1")).date
-    val time = "${Clock.System.now().toLocalDateTime(TimeZone.of("UTC+1")).toString().split("T")[1].split(":")[0]}:${Clock.System.now().toLocalDateTime(TimeZone.of("UTC+1")).toString().split("T")[1].split(":")[1]}"
     while (true) {
     	clearScreen()
     	print.table()
-    	println("Date: ${date}\nTime: ${time}\n")
     	print.userOptions()
         print("\n> ")
         val userInput = readln()

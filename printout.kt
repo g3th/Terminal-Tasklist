@@ -1,5 +1,6 @@
 package tasklist
 import kotlin.system.*
+import kotlinx.datetime.*
 
 import java.io.*
 import kotlin.system.exitProcess
@@ -42,13 +43,23 @@ class PrintOut {
 		}
 		
 	fun userOptions(){
-		println("${ColourEditor().escSeq}${ColourEditor().setText}mInput an action:\n----------------")
-		println("${ColourEditor().escSeq}${ColourEditor().setText}m1. Add")
-		println("${ColourEditor().escSeq}${ColourEditor().setText}m2. Print")
-		println("${ColourEditor().escSeq}${ColourEditor().setText}m3. Set Colours")
-		println("${ColourEditor().escSeq}${ColourEditor().setText}m4. Edit")
-		println("${ColourEditor().escSeq}${ColourEditor().setText}m5. Delete")
-		println("${ColourEditor().escSeq}${ColourEditor().setText}m6. End")					
+		val date = Clock.System.now().toLocalDateTime(TimeZone.of("UTC+1")).date
+		val time = "${Clock.System.now()
+		.toLocalDateTime(TimeZone.of("UTC+1")).toString().split("T")[1].split(":")[0]}:${Clock.System.now().toLocalDateTime(TimeZone.of("UTC+1")).toString().split("T")[1].split(":")[1]}"
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m+-----------------------+")
+    	println("|    ${ColourEditor().escSeq}${ColourEditor().setTableText}mDate    ${ColourEditor().escSeq}${ColourEditor().setBorder}m |  ${ColourEditor().escSeq}${ColourEditor().setTableText}mTime${ColourEditor().escSeq}${ColourEditor().setBorder}m   |")
+    	println("${ColourEditor().escSeq}${ColourEditor().setBorder}m+-----------------------+")
+    	println("|  ${ColourEditor().escSeq}${ColourEditor().setText}m${date}${ColourEditor().escSeq}${ColourEditor().setBorder}m |  ${ColourEditor().escSeq}${ColourEditor().setText}m${time}${ColourEditor().escSeq}${ColourEditor().setBorder}m  |")
+    	println("${ColourEditor().escSeq}${ColourEditor().setBorder}m+-----------------------+")
+		println("|${ColourEditor().escSeq}${ColourEditor().setTableText}m    Input an action:   ${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m+-----------------------+")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m|     ${ColourEditor().escSeq}${ColourEditor().setText}m1. Add           	${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m|     ${ColourEditor().escSeq}${ColourEditor().setText}m2. Print         	${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m|     ${ColourEditor().escSeq}${ColourEditor().setText}m3. Set Colours	${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m|     ${ColourEditor().escSeq}${ColourEditor().setText}m4. Edit       	${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m|     ${ColourEditor().escSeq}${ColourEditor().setText}m5. Delete         ${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m|     ${ColourEditor().escSeq}${ColourEditor().setText}m6. End       	${ColourEditor().escSeq}${ColourEditor().setBorder}m|")
+		println("${ColourEditor().escSeq}${ColourEditor().setBorder}m+-----------------------+")				
 	}
 	
 	/*	Format the task list:
