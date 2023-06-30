@@ -1,6 +1,8 @@
 # Kotlin Tasklist for Terminals
 ## Implementing a daily task list TUI
+
 <video src="https://github.com/g3th/Terminal-Tasklist/blob/94ac9a114d53c65195b69c728b2ea8dc3e7d9408/assets/video.mkv"></video>
+
 A project which implements a task-list for terminals, with simple TUI menu which allows the user to choose different options. The menu now includes a proper print layout, composed of a table which includes time, date, task, and colour-coded priority and due tags. The user has the option to change every colour property of the layout, including table border and table text. All changes take effect while the program is running, without needing to restart.
 
 The task section of the table only has space for 44 characters at most, and the layout class is able to adequately split larger inputs into various chunks, and subsequently organize them into the appropriate format.
